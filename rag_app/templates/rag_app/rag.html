@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>RAG System</title>
+</head>
+<body>
+    <h1>Ask the RAG System</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Search</button>
+    </form>
+
+    {% if results %}
+        <h2>Answer:</h2>
+        <p>{{ results.answer }}</p>
+
+        <h2>Source Documents:</h2>
+        {% for doc in results.source_documents %}
+            <div>
+                <p><strong>Content:</strong> {{ doc.content|safe }}</p>
+                <p><strong>Metadata:</strong> {{ doc.metadata|safe }}</p>
+                <hr>
+            </div>
+        {% endfor %}
+    {% elif error_message %}
+        <p style="color: red;">{{ error_message }}</p>
+    {% endif %}
+</body>
+</html>
