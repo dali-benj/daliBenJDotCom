@@ -152,8 +152,7 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-with open("rag_app/deepseek_api_key.secret", "r") as f:
-    DEEPSEEK_API_KEY = f.read()
+
 
 
 INTERNAL_IPS = [
