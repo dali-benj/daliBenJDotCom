@@ -5,7 +5,7 @@ aiosignal==1.3.2
 annotated-types==0.7.0
 anyio==4.8.0
 asgiref==3.8.1
-asttokens @ file:///home/conda/feedstock_root/build_artifacts/asttokens_1733250440834/work
+asttokens==3.0.0
 attrs==25.1.0
 Automat==24.8.1
 babel==2.17.0
@@ -14,23 +14,25 @@ certifi==2025.1.31
 cffi==1.17.1
 charset-normalizer==3.4.1
 click==8.1.8
-comm @ file:///home/conda/feedstock_root/build_artifacts/comm_1733502965406/work
+comm==0.2.2
 constantly==23.10.4
 courlan==1.3.2
 cryptography==44.0.2
 cssselect==1.2.0
 dataclasses-json==0.6.7
 dateparser==1.2.1
-debugpy @ file:///home/conda/feedstock_root/build_artifacts/debugpy_1737269728054/work
-decorator @ file:///home/conda/feedstock_root/build_artifacts/decorator_1740384970518/work
+debugpy==1.8.13
+decorator==5.2.1
 defusedxml==0.7.1
 distro==1.9.0
+dj-database-url==2.3.0
 Django==5.1.6
 django-debug-toolbar==5.0.1
 django-recaptcha==4.0.0
+docopt==0.6.2
 duckduckgo_search==7.5.0
-exceptiongroup @ file:///home/conda/feedstock_root/build_artifacts/exceptiongroup_1733208806608/work
-executing @ file:///home/conda/feedstock_root/build_artifacts/executing_1733569351617/work
+exceptiongroup==1.2.2
+executing==2.2.0
 faiss-cpu==1.10.0
 filelock==3.17.0
 frozenlist==1.5.0
@@ -44,14 +46,14 @@ httpx-sse==0.4.0
 huggingface-hub==0.29.1
 hyperlink==21.0.0
 idna==3.10
-importlib_metadata @ file:///home/conda/feedstock_root/build_artifacts/importlib-metadata_1737420181517/work
+importlib_metadata==8.6.1
 incremental==24.7.2
-ipykernel @ file:///home/conda/feedstock_root/build_artifacts/ipykernel_1719845459717/work
-ipython @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_ipython_1741120654/work
-ipython_pygments_lexers @ file:///home/conda/feedstock_root/build_artifacts/ipython_pygments_lexers_1737123620466/work
+ipykernel==6.29.5
+ipython==9.0.1
+ipython_pygments_lexers==1.1.1
 itemadapter==0.11.0
 itemloaders==1.3.2
-jedi @ file:///home/conda/feedstock_root/build_artifacts/jedi_1733300866624/work
+jedi==0.19.2
 Jinja2==3.1.5
 jiter==0.8.2
 jmespath==1.0.1
@@ -59,8 +61,8 @@ joblib==1.4.2
 jq==1.8.0
 jsonpatch==1.33
 jsonpointer==3.0.0
-jupyter_client @ file:///home/conda/feedstock_root/build_artifacts/jupyter_client_1733440914442/work
-jupyter_core @ file:///home/conda/feedstock_root/build_artifacts/jupyter_core_1727163409502/work
+jupyter_client==8.6.3
+jupyter_core==5.7.2
 jusText==3.0.2
 langchain==0.3.20
 langchain-community==0.3.19
@@ -71,11 +73,11 @@ lxml==5.3.1
 lxml_html_clean==0.4.1
 MarkupSafe==3.0.2
 marshmallow==3.26.1
-matplotlib-inline @ file:///home/conda/feedstock_root/build_artifacts/matplotlib-inline_1733416936468/work
+matplotlib-inline==0.1.7
 mpmath==1.3.0
 multidict==6.1.0
 mypy-extensions==1.0.0
-nest_asyncio @ file:///home/conda/feedstock_root/build_artifacts/nest-asyncio_1733325553580/work
+nest-asyncio==1.6.0
 networkx==3.4.2
 numpy==2.2.3
 nvidia-cublas-cu12==12.4.5.8
@@ -93,20 +95,22 @@ nvidia-nvjitlink-cu12==12.4.127
 nvidia-nvtx-cu12==12.4.127
 openai==1.65.3
 orjson==3.10.15
-packaging @ file:///home/conda/feedstock_root/build_artifacts/packaging_1733203243479/work
+packaging==24.2
 parsel==1.10.0
-parso @ file:///home/conda/feedstock_root/build_artifacts/parso_1733271261340/work
-pexpect @ file:///home/conda/feedstock_root/build_artifacts/pexpect_1733301927746/work
-pickleshare @ file:///home/conda/feedstock_root/build_artifacts/pickleshare_1733327343728/work
+parso==0.8.4
+pexpect==4.9.0
+pickleshare==0.7.5
 pillow==11.1.0
-platformdirs @ file:///home/conda/feedstock_root/build_artifacts/platformdirs_1733232627818/work
+pipreqs==0.4.13
+platformdirs==4.3.6
 primp==0.14.0
-prompt_toolkit @ file:///home/conda/feedstock_root/build_artifacts/prompt-toolkit_1737453357274/work
+prompt_toolkit==3.0.50
 propcache==0.3.0
 Protego==0.4.0
-psutil @ file:///home/conda/feedstock_root/build_artifacts/psutil_1740663131878/work
-ptyprocess @ file:///home/conda/feedstock_root/build_artifacts/ptyprocess_1733302279685/work/dist/ptyprocess-0.7.0-py2.py3-none-any.whl#sha256=92c32ff62b5fd8cf325bec5ab90d7be3d2a8ca8c8a3813ff487a8d2002630d1f
-pure_eval @ file:///home/conda/feedstock_root/build_artifacts/pure_eval_1733569405015/work
+psutil==7.0.0
+psycopg2-binary==2.9.10
+ptyprocess==0.7.0
+pure_eval==0.2.3
 pyasn1==0.6.1
 pyasn1_modules==0.4.1
 pycparser==2.22
@@ -114,13 +118,13 @@ pydantic==2.10.6
 pydantic-settings==2.8.1
 pydantic_core==2.27.2
 PyDispatcher==2.0.7
-Pygments @ file:///home/conda/feedstock_root/build_artifacts/pygments_1736243443484/work
+Pygments==2.19.1
 pyOpenSSL==25.0.0
-python-dateutil @ file:///home/conda/feedstock_root/build_artifacts/python-dateutil_1733215673016/work
+python-dateutil==2.9.0.post0
 python-dotenv==1.0.1
 pytz==2025.1
 PyYAML==6.0.2
-pyzmq @ file:///home/conda/feedstock_root/build_artifacts/pyzmq_1738270956736/work
+pyzmq==26.2.1
 queuelib==1.7.0
 regex==2024.11.6
 requests==2.32.3
@@ -133,12 +137,12 @@ Scrapy==2.12.0
 sentence-transformers==3.4.1
 service-identity==24.2.0
 setuptools==75.8.0
-six @ file:///home/conda/feedstock_root/build_artifacts/six_1733380938961/work
+six==1.17.0
 sniffio==1.3.1
 soupsieve==2.6
 SQLAlchemy==2.0.38
 sqlparse==0.5.3
-stack_data @ file:///home/conda/feedstock_root/build_artifacts/stack_data_1733569443808/work
+stack-data==0.6.3
 sympy==1.13.1
 tenacity==9.0.0
 threadpoolctl==3.5.0
@@ -146,21 +150,23 @@ tld==0.13
 tldextract==5.1.3
 tokenizers==0.21.0
 torch==2.6.0
-tornado @ file:///home/conda/feedstock_root/build_artifacts/tornado_1732615881993/work
+tornado==6.4.2
 tqdm==4.67.1
 trafilatura==2.0.0
-traitlets @ file:///home/conda/feedstock_root/build_artifacts/traitlets_1733367359838/work
+traitlets==5.14.3
 transformers==4.49.0
 triton==3.2.0
 Twisted==24.11.0
 typing-inspect==0.9.0
-typing_extensions @ file:///home/conda/feedstock_root/build_artifacts/typing_extensions_1733188668063/work
+typing_extensions==4.12.2
 tzlocal==5.3
 urllib3==2.3.0
 w3lib==2.3.1
-wcwidth @ file:///home/conda/feedstock_root/build_artifacts/wcwidth_1733231326287/work
+wcwidth==0.2.13
 wheel==0.45.1
+whitenoise==6.9.0
+yarg==0.1.10
 yarl==1.18.3
-zipp @ file:///home/conda/feedstock_root/build_artifacts/zipp_1732827521216/work
+zipp==3.21.0
 zope.interface==7.2
 zstandard==0.23.0
