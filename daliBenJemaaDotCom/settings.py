@@ -103,8 +103,8 @@ DATABASE_URL = os.environ.get('DATABASE_URL')
 
 DATABASES = {
     'default': dj_database_url.config(
-        default=DATABASE_URL,  # Replace with your database URL
-        conn_max_age=600  # Optional: Connection pooling (recommended)
+        default=f"postgresql://{os.environ.get('POSTGRES_USER')}:{os.environ.get('POSTGRES_PASSWORD')}@db:5432/{os.environ.get('POSTGRES_DB')}", 
+        conn_max_age=600
     )
 }
 
