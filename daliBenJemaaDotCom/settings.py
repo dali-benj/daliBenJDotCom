@@ -25,7 +25,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 #DEBUG = True
 
 #ALLOWED_HOSTS = []
-# rag_project/settings.py
 
 
 
@@ -101,13 +100,37 @@ load_dotenv(override=True,dotenv_path=BASE_DIR / 'secret.env')
 SECRET_KEY = os.environ.get('SECRET_KEY')
 DATABASE_URL = os.environ.get('DATABASE_URL')
 
+#DATABASES = {
+#    'default': dj_database_url.config(
+#        default=f"postgresql://{os.environ.get('POSTGRES_USER')}:{os.environ.get('POSTGRES_PASSWORD')}@db:5432/{}",
+#        conn_max_age=600,
+#        conn_health_checks=True
+#    )
+#}
 DATABASES = {
-    'default': dj_database_url.config(
-        default=f"postgresql://{os.environ.get('POSTGRES_USER')}:{os.environ.get('POSTGRES_PASSWORD')}@db:5432/{os.environ.get('POSTGRES_DB')}", 
-        conn_max_age=600
-    )
+
+    'default': {
+
+        'ENGINE': 'django.db.backends.postgresql',
+
+        'NAME': os.environ.get('POSTGRES_DB'), 
+
+        'USER': os.environ.get('POSTGRES_USER'),
+
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+
+        'HOST': 'db',
+
+        'PORT': '5432',
+        
+        'conn_max_age': 600,
+        'conn_health_checks': True
+    }
 }
 
+
+print("Database Configuration:")
+print(DATABASES)
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
@@ -171,6 +194,4 @@ RECAPTCHA_PUBLIC_KEY = os.environ.get('RECAPTCHA_PUBLIC_KEY')
 RECAPTCHA_PRIVATE_KEY = os.environ.get('RECAPTCHA_PRIVATE_KEY')
 DEEPSEEK_API_KEY = os.environ.get('DEEPSEEK_API_KEY')
 DEBUG = os.environ.get('DEBUG') == 'True' # Convert to boolean.
-ALLOWED_HOSTS_RAW = os.environ.get('ALLOWED_HOSTS')
-ALLOWED_HOSTS = ALLOWED_HOSTS_RAW.replace('"', '').split(',') # Split the string by commas.
-
+ALLOWED_HOSTS = ['*'] if DEBUG else os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1').replace('"', '').split(',')
