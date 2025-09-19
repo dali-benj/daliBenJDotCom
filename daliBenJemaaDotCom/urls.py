@@ -21,7 +21,8 @@ from django.conf import settings  # Import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('rag_app.urls')),  # Homepage at /
+    path('', include('portfolio.urls')),  # Portfolio homepage at /
+    path('rag/', include('apps.rag_app.urls')),  # RAG app at /rag/
 ]
 
 if settings.DEBUG:  # Only enable in development

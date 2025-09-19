@@ -10,7 +10,8 @@ from langchain_community.tools import DuckDuckGoSearchResults
 from langchain_core.documents import Document
 from bs4 import BeautifulSoup
 from trafilatura import extract
-import requests
+import aiohttp
+import asyncio
 import json
 import os
 import time
@@ -19,7 +20,7 @@ from django.conf import settings # Import settings
 
 
 @retry(wait=wait_random_exponential(min=1, max=60), stop=stop_after_attempt(6))
-def deepseek_api_call(prompt, stop=None):
+async def deepseek_api_call(prompt, stop=None):
     if hasattr(prompt, "to_string"):
         prompt = prompt.to_string()
     url = "https://api.deepseek.com/v1/chat/completions"
@@ -32,56 +33,82 @@ def deepseek_api_call(prompt, stop=None):
         "messages": [{"role": "user", "content": prompt}]
     }
     try:
-        response = requests.post(url, headers=headers, data=json.dumps(data), timeout=30)
-        response.raise_for_status()
-        return response.json()["choices"][0]["message"]["content"]
-    except requests.exceptions.RequestException as e:
+        async with aiohttp.ClientSession() as session:
+            async with session.post(url, headers=headers, json=data, timeout=aiohttp.ClientTimeout(total=30)) as response:
+                response.raise_for_status()
+                result = await response.json()
+                return result["choices"][0]["message"]["content"]
+    except aiohttp.ClientError as e:
         print(f"Request error: {e}")
         raise
     except (KeyError, json.JSONDecodeError) as e:
-        print(f"API response error: {e}, Response: {response.text if 'response' in locals() else 'No response'}")
+        print(f"API response error: {e}")
         raise
 
 
-def fetch_and_extract(query, max_results=5, delay=1):
+async def fetch_and_extract(query, max_results=5, delay=1):
     search = DuckDuckGoSearchResults(output_format="list", max_results=max_results)
     web_results = search.invoke(query)
     documents = []
-    for result in web_results:
+    
+    async def fetch_single_url(session, result):
         link = result["link"]
         try:
-            response = requests.get(link, timeout=10)
-            response.raise_for_status()
-            if response.encoding is None:
-                response.encoding = response.apparent_encoding
-            html_content = response.text
-
-            extracted_text = extract(html_content, favor_recall=True)
-            if extracted_text:
-                documents.append(Document(page_content=extracted_text.strip(), metadata={"source": link}))
-            else:
-                soup = BeautifulSoup(html_content, 'html.parser')
-                text_content = soup.find('body').text.strip()
-                if text_content:
-                    documents.append(Document(page_content=text_content, metadata={"source": link}))
+            async with session.get(link, timeout=aiohttp.ClientTimeout(total=10)) as response:
+                response.raise_for_status()
+                html_content = await response.text()
+                
+                extracted_text = extract(html_content, favor_recall=True)
+                if extracted_text:
+                    return Document(page_content=extracted_text.strip(), metadata={"source": link})
                 else:
-                    print(f"No usable text found in: {link}")
-        except requests.exceptions.RequestException as e:
+                    soup = BeautifulSoup(html_content, 'html.parser')
+                    text_content = soup.find('body').text.strip()
+                    if text_content:
+                        return Document(page_content=text_content, metadata={"source": link})
+                    else:
+                        print(f"No usable text found in: {link}")
+                        return None
+        except aiohttp.ClientError as e:
             print(f"Error fetching {link}: {e}")
+            return None
         except Exception as e:
             print(f"An unexpected error occurred processing {link}: {e}")
-        time.sleep(delay)
+            return None
+    
+    # Fetch all URLs concurrently
+    async with aiohttp.ClientSession() as session:
+        tasks = [fetch_single_url(session, result) for result in web_results]
+        results = await asyncio.gather(*tasks, return_exceptions=True)
+        
+        for result in results:
+            if result and not isinstance(result, Exception):
+                documents.append(result)
+            elif isinstance(result, Exception):
+                print(f"Task failed with exception: {result}")
+    
     return documents
 
 
-def perform_search(query, data_file_path, index_path="faiss_index", chain_type="stuff"):
-    llm = RunnableLambda(deepseek_api_call)
+# Global cache for FAISS index to avoid reloading
+_faiss_cache = {}
 
-    # Load or create FAISS index - SAFE VERSION
-    if os.path.exists(index_path):
+async def perform_search(query, data_file_path, index_path="faiss_index", chain_type="stuff"):
+    # Create a wrapper for the async function to work with LangChain
+    def sync_deepseek_wrapper(prompt, stop=None):
+        return asyncio.run(deepseek_api_call(prompt, stop))
+    
+    llm = RunnableLambda(sync_deepseek_wrapper)
+
+    # Load or create FAISS index with caching - SAFE VERSION
+    if index_path in _faiss_cache:
+        db = _faiss_cache[index_path]
+        print("Using cached FAISS index.")
+    elif os.path.exists(index_path):
         embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-mpnet-base-v2")
         try:
             db = FAISS.load_local(index_path, embeddings, allow_dangerous_deserialization=True) #Safe to set True
+            _faiss_cache[index_path] = db  # Cache the loaded index
             print("Loaded existing FAISS index (with safe deserialization).")
         except ValueError as e:
             if "allow_dangerous_deserialization" in str(e):
@@ -91,6 +118,9 @@ def perform_search(query, data_file_path, index_path="faiss_index", chain_type="
             else:
                 raise
     else:
+        if not os.path.exists(data_file_path):
+            print(f"Data file not found at {data_file_path}")
+            return None
         loader = JSONLoader(file_path=data_file_path, jq_schema='.content', text_content=False, json_lines=True)
         documents = loader.load()
         text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100)
@@ -98,9 +128,11 @@ def perform_search(query, data_file_path, index_path="faiss_index", chain_type="
         embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-mpnet-base-v2")
         db = FAISS.from_documents(texts, embeddings)
         db.save_local(index_path)
+        _faiss_cache[index_path] = db  # Cache the created index
         print("Created and saved new FAISS index.")
 
-    web_documents = fetch_and_extract(query)
+    # Fetch web documents asynchronously
+    web_documents = await fetch_and_extract(query)
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100)
     web_texts = text_splitter.split_documents(web_documents)
     db.add_documents(web_texts)

@@ -1,14 +1,19 @@
 # Create your views here.
 from django.shortcuts import render, redirect
+from django.views.decorators.http import require_http_methods
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
+from asgiref.sync import sync_to_async
 from .forms import QueryForm
 from .rag_logic import perform_search
 import os
+import asyncio
 from django.conf import settings
 from .models import Query
 from django.utils.html import escape
 
 
-def rag_view(request):
+async def rag_view(request):
     results = None
     if request.method == 'POST':
         form = QueryForm(request.POST)
@@ -30,24 +35,23 @@ def rag_view(request):
             user_agent = request.META.get('HTTP_USER_AGENT')
             query_obj.user_agent = user_agent[:255] if user_agent else None # Truncate to fit.
 
-            query_obj.save() #Save before getting results
+            # Save query asynchronously
+            await sync_to_async(query_obj.save)()
 
-
-            data_file_path = os.path.join(settings.BASE_DIR,  'rag_app/anime_corner_data.jsonl')
+            # Perform async search
+            data_file_path = os.path.join(settings.BASE_DIR,  'apps/rag_app/anime_corner_data.jsonl')
             index_path = os.path.join(settings.BASE_DIR, 'faiss_index')
-            results = perform_search(query, data_file_path, index_path)
+            results = await perform_search(query, data_file_path, index_path)
 
             if results is None:
                 return render(request, 'rag_app/rag.html', {'form': form, 'error_message': "Failed to load RAG system."})
-            # Save the answer to the database
+            
+            # Save the answer to the database asynchronously
             query_obj.answer_text = results['answer']
-            query_obj.save()
+            await sync_to_async(query_obj.save)()
             return render(request, 'rag_app/rag.html', {'form': form, 'results': results})
 
     else:
         form = QueryForm()
     return render(request, 'rag_app/rag.html', {'form': form, 'results': results})
 
-
-def home_view(request):
-    return render(request, 'rag_app/index.html')
