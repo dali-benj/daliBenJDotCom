@@ -46,6 +46,46 @@ async def deepseek_api_call(prompt, stop=None):
         raise
 
 
+async def fetch_searxng_results(query, max_results=3):
+    """Fetch search results from self-hosted SearxNG instance."""
+    import aiohttp
+    import logging
+    logger = logging.getLogger(__name__)
+    
+    try:
+        # SearxNG API endpoint
+        searxng_url = "http://searxng:8080/search"
+        params = {
+            'q': query,
+            'format': 'json',
+            'categories': 'general',
+            'engines': 'google,bing,duckduckgo,startpage',
+            'safesearch': '0'
+        }
+        
+        async with aiohttp.ClientSession() as session:
+            async with session.get(searxng_url, params=params, timeout=10) as response:
+                if response.status == 200:
+                    data = await response.json()
+                    results = []
+                    
+                    for result in data.get('results', [])[:max_results]:
+                        results.append({
+                            'link': result.get('url', ''),
+                            'title': result.get('title', ''),
+                            'snippet': result.get('content', '')
+                        })
+                    
+                    logger.info(f"SearxNG returned {len(results)} results")
+                    return results
+                else:
+                    logger.error(f"SearxNG returned status {response.status}")
+                    return []
+                    
+    except Exception as e:
+        logger.error(f"SearxNG search error: {str(e)}")
+        return []
+
 async def fetch_and_extract(query, max_results=3, delay=2):
     import time
     import logging
@@ -57,42 +97,44 @@ async def fetch_and_extract(query, max_results=3, delay=2):
         logger.info(f"Using cached search results for '{query}'")
         return _search_cache[cache_key]
     
-    # Reduce max_results to minimize API calls and add delay
-    logger.info(f"Searching for '{query}' with max_results={max_results}")
-    
-    # Add initial delay to be more respectful to the API
-    await asyncio.sleep(delay)
-    
-    # Retry mechanism for DuckDuckGo rate limiting
-    max_retries = 2  # Reduced retries to be less aggressive
+    # Try DuckDuckGo first, then fallback to SearxNG
     web_results = []
     
+    # First attempt: DuckDuckGo
+    logger.info(f"Trying DuckDuckGo search for '{query}' with max_results={max_results}")
+    await asyncio.sleep(delay)  # Initial delay
+    
+    max_retries = 2
     for attempt in range(max_retries):
         try:
-            # Use more conservative search parameters
             search = DuckDuckGoSearchResults(
                 output_format="list", 
                 max_results=max_results,
-                safesearch="moderate"  # Add safesearch to potentially reduce load
+                safesearch="moderate"
             )
             web_results = search.invoke(query)
+            logger.info(f"DuckDuckGo search successful")
             break
         except Exception as e:
             if "Ratelimit" in str(e) or "202" in str(e):
                 if attempt < max_retries - 1:
-                    wait_time = (3 ** attempt) + 2  # Longer backoff: 3, 5 seconds
+                    wait_time = (3 ** attempt) + 2
                     logger.warning(f"DuckDuckGo rate limited, waiting {wait_time} seconds before retry {attempt + 1}")
                     await asyncio.sleep(wait_time)
                     continue
                 else:
-                    logger.error(f"DuckDuckGo search failed after {max_retries} attempts: {str(e)}")
-                    raise Exception(f"Web search unavailable: {str(e)}")
+                    logger.warning(f"DuckDuckGo failed after {max_retries} attempts, trying SearxNG fallback")
+                    # Fallback to SearxNG
+                    web_results = await fetch_searxng_results(query, max_results)
+                    if not web_results:
+                        raise Exception(f"Both DuckDuckGo and SearxNG failed: {str(e)}")
+                    break
             else:
                 logger.error(f"DuckDuckGo search error: {str(e)}")
                 raise Exception(f"Web search error: {str(e)}")
     
     if not web_results:
-        logger.warning("No web search results found")
+        logger.warning("No web search results found from any source")
         raise Exception("No web search results found")
     
     documents = []
