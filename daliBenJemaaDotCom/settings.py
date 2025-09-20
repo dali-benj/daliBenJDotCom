@@ -236,7 +236,7 @@ LOGGING = {
     'loggers': {
         'apps.rag_app': {
             'handlers': ['console'],
-            'level': 'DEBUG',
+            'level': 'INFO',
             'propagate': False,
         },
     },
