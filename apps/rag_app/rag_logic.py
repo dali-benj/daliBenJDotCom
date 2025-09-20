@@ -46,6 +46,37 @@ async def deepseek_api_call(prompt, stop=None):
         raise
 
 
+def sync_deepseek_api_call(prompt, stop=None):
+    """Synchronous version of DeepSeek API call for use with LangChain."""
+    import requests
+    import json
+    from django.conf import settings
+    
+    if hasattr(prompt, "to_string"):
+        prompt = prompt.to_string()
+    
+    url = "https://api.deepseek.com/v1/chat/completions"
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": f"Bearer {settings.DEEPSEEK_API_KEY}"
+    }
+    data = {
+        "model": "deepseek-chat",
+        "messages": [{"role": "user", "content": prompt}]
+    }
+    try:
+        response = requests.post(url, headers=headers, json=data, timeout=30)
+        response.raise_for_status()
+        result = response.json()
+        return result["choices"][0]["message"]["content"]
+    except requests.RequestException as e:
+        print(f"Request error: {e}")
+        raise
+    except (KeyError, json.JSONDecodeError) as e:
+        print(f"API response error: {e}")
+        raise
+
+
 async def fetch_searxng_results(query, max_results=3):
     """Fetch search results from self-hosted SearxNG instance."""
     import aiohttp
@@ -205,11 +236,8 @@ async def perform_search(query, data_file_path, index_path="faiss_index", chain_
     try:
         logger.info(f"Starting RAG search for query: {query}")
         
-        # Create a wrapper for the async function to work with LangChain
-        def sync_deepseek_wrapper(prompt, stop=None):
-            return asyncio.run(deepseek_api_call(prompt, stop))
-        
-        llm = RunnableLambda(sync_deepseek_wrapper)
+        # Use the synchronous version directly
+        llm = RunnableLambda(sync_deepseek_api_call)
         logger.info("LLM wrapper created successfully")
 
         # Load or create FAISS index with caching - SAFE VERSION
