@@ -77,7 +77,7 @@ def sync_deepseek_api_call(prompt, stop=None):
         raise
 
 
-async def fetch_searxng_results(query, max_results=3):
+async def fetch_searxng_results(query, max_results=10):
     """Fetch search results from self-hosted SearxNG instance."""
     import aiohttp
     import logging
@@ -90,7 +90,8 @@ async def fetch_searxng_results(query, max_results=3):
             'q': query,
             'format': 'json',
             'categories': 'general',
-            'safesearch': '0'
+            'safesearch': '0',
+            'pageno': '1'
         }
         
         # Add User-Agent header to avoid 403 errors
@@ -122,7 +123,7 @@ async def fetch_searxng_results(query, max_results=3):
         logger.error(f"SearxNG search error: {str(e)}")
         return []
 
-async def fetch_and_extract(query, max_results=3, delay=2):
+async def fetch_and_extract(query, max_results=10, delay=2):
     import time
     import logging
     logger = logging.getLogger(__name__)

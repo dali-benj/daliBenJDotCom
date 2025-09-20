@@ -9,6 +9,7 @@ search:
   formats:
     - html
     - json
+  max_page: 20
 
 server:
   port: 8080
@@ -47,7 +48,7 @@ engines:
     disabled: false
     timeout: 3.0
     tokens: []
-    max_page: 10
+    max_page: 20
     safesearch: false
     send_accept_language_header: true
 
@@ -58,7 +59,7 @@ engines:
     disabled: false
     timeout: 3.0
     tokens: []
-    max_page: 10
+    max_page: 20
     safesearch: false
 
   - name: duckduckgo
@@ -68,7 +69,7 @@ engines:
     disabled: false
     timeout: 3.0
     tokens: []
-    max_page: 10
+    max_page: 20
     safesearch: false
 
   - name: startpage
@@ -78,7 +79,7 @@ engines:
     disabled: false
     timeout: 3.0
     tokens: []
-    max_page: 10
+    max_page: 20
     safesearch: false
 
   - name: wikipedia
@@ -88,5 +89,5 @@ engines:
     disabled: false
     timeout: 3.0
     tokens: []
-    max_page: 10
+    max_page: 20
     safesearch: false
