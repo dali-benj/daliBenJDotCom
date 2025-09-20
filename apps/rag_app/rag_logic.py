@@ -231,6 +231,7 @@ _search_cache = {}
 
 async def perform_search(query, data_file_path, index_path="faiss_index", chain_type="stuff"):
     import logging
+    import os
     logger = logging.getLogger(__name__)
     
     try:
@@ -252,7 +253,6 @@ async def perform_search(query, data_file_path, index_path="faiss_index", chain_
                 print("Loaded existing FAISS index (with safe deserialization).")
                 
                 # Update metadata for existing documents to show just filename
-                import os
                 filename = os.path.basename(data_file_path)
                 # Note: FAISS doesn't allow direct metadata updates, but new documents will have correct metadata
             except ValueError as e:
@@ -272,7 +272,6 @@ async def perform_search(query, data_file_path, index_path="faiss_index", chain_
             texts = text_splitter.split_documents(documents)
             
             # Update metadata to show just the filename
-            import os
             filename = os.path.basename(data_file_path)
             for text in texts:
                 text.metadata['source'] = filename
