@@ -4,14 +4,88 @@ from django.views.decorators.http import require_http_methods
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from .forms import QueryForm
-from .rag_logic_simple import simple_perform_search
 import os
 import logging
+import requests
+import json
 from django.conf import settings
 from .models import Query
 from django.utils.html import escape
 
 logger = logging.getLogger(__name__)
+
+def simple_deepseek_api_call(prompt, stop=None):
+    """Simple synchronous API call to DeepSeek"""
+    if hasattr(prompt, "to_string"):
+        prompt = prompt.to_string()
+    
+    url = "https://api.deepseek.com/v1/chat/completions"
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": f"Bearer {settings.DEEPSEEK_API_KEY}"
+    }
+    data = {
+        "model": "deepseek-chat",
+        "messages": [{"role": "user", "content": prompt}]
+    }
+    
+    try:
+        logger.info("Making API call to DeepSeek...")
+        response = requests.post(url, headers=headers, json=data, timeout=30)
+        response.raise_for_status()
+        result = response.json()
+        logger.info("API call successful")
+        return result["choices"][0]["message"]["content"]
+    except requests.exceptions.RequestException as e:
+        logger.error(f"Request error: {e}")
+        raise
+    except (KeyError, json.JSONDecodeError) as e:
+        logger.error(f"API response error: {e}")
+        raise
+
+def simple_perform_search(query, data_file_path, index_path="faiss_index"):
+    """Simple version of RAG search for debugging"""
+    try:
+        logger.info(f"Starting simple RAG search for query: {query}")
+        
+        # Check if data file exists
+        if not os.path.exists(data_file_path):
+            logger.error(f"Data file not found at {data_file_path}")
+            return None
+            
+        # For now, just return a simple response using the API
+        # This bypasses the complex FAISS/LangChain setup
+        simple_prompt = f"""Based on the following context, answer the question: {query}
+
+Context: This is a sample RAG system. The user is asking: {query}
+
+Please provide a helpful answer."""
+        
+        try:
+            # Check if API key is available
+            if not hasattr(settings, 'DEEPSEEK_API_KEY') or not settings.DEEPSEEK_API_KEY:
+                logger.warning("No DeepSeek API key found, using fallback response")
+                return {
+                    'answer': f"Hello! You asked: '{query}'. This is a demo response. To get AI-powered answers, please configure the DeepSeek API key.",
+                    'source_documents': [{'content': 'Demo response', 'metadata': {'source': 'fallback'}}]
+                }
+            
+            answer = simple_deepseek_api_call(simple_prompt)
+            logger.info("Simple search completed successfully")
+            return {
+                'answer': answer,
+                'source_documents': [{'content': 'Sample context', 'metadata': {'source': 'test'}}]
+            }
+        except Exception as e:
+            logger.error(f"API call failed: {e}")
+            return {
+                'answer': f"I'm sorry, I couldn't process your request due to an API error: {str(e)}. This is a demo response for: '{query}'",
+                'source_documents': [{'content': 'Error fallback', 'metadata': {'source': 'error'}}]
+            }
+            
+    except Exception as e:
+        logger.error(f"Error in simple_perform_search: {str(e)}", exc_info=True)
+        return None
 
 def rag_view(request):
     results = None
