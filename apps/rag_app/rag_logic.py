@@ -48,6 +48,8 @@ async def deepseek_api_call(prompt, stop=None):
 
 async def fetch_and_extract(query, max_results=3, delay=2):
     import time
+    import logging
+    logger = logging.getLogger(__name__)
     
     # Check cache first to avoid duplicate API calls
     cache_key = f"{query.lower().strip()}_{max_results}"
