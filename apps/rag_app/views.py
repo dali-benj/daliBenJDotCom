@@ -3,20 +3,17 @@ from django.shortcuts import render, redirect
 from django.views.decorators.http import require_http_methods
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
-from asgiref.sync import sync_to_async
 from .forms import QueryForm
-from .rag_logic import perform_search
+from .rag_logic_simple import simple_perform_search
 import os
-import asyncio
+import logging
 from django.conf import settings
 from .models import Query
 from django.utils.html import escape
 
+logger = logging.getLogger(__name__)
 
-async def rag_view(request):
-    import logging
-    logger = logging.getLogger(__name__)
-    
+def rag_view(request):
     results = None
     if request.method == 'POST':
         form = QueryForm(request.POST)
@@ -40,11 +37,11 @@ async def rag_view(request):
                 user_agent = request.META.get('HTTP_USER_AGENT')
                 query_obj.user_agent = user_agent[:255] if user_agent else None # Truncate to fit.
 
-                # Save query asynchronously
-                await sync_to_async(query_obj.save)()
+                # Save query
+                query_obj.save()
                 logger.info("Query saved to database successfully")
 
-                # Perform async search
+                # Perform search using asyncio.run
                 data_file_path = os.path.join(settings.BASE_DIR,  'apps/rag_app/anime_corner_data.jsonl')
                 index_path = os.path.join(settings.BASE_DIR, 'faiss_index')
                 
@@ -53,7 +50,8 @@ async def rag_view(request):
                 logger.info(f"Data file exists: {os.path.exists(data_file_path)}")
                 logger.info(f"Index exists: {os.path.exists(index_path)}")
                 
-                results = await perform_search(query, data_file_path, index_path)
+                # Use simple search function
+                results = simple_perform_search(query, data_file_path, index_path)
                 logger.info(f"Search results: {results is not None}")
 
                 if results is None:
@@ -61,9 +59,9 @@ async def rag_view(request):
                     logger.error("RAG search returned None")
                     return render(request, 'rag_app/rag.html', {'form': form, 'error_message': error_msg})
                 
-                # Save the answer to the database asynchronously
+                # Save the answer to the database
                 query_obj.answer_text = results['answer']
-                await sync_to_async(query_obj.save)()
+                query_obj.save()
                 logger.info("Answer saved to database successfully")
                 return render(request, 'rag_app/rag.html', {'form': form, 'results': results})
                 
@@ -74,4 +72,3 @@ async def rag_view(request):
     else:
         form = QueryForm()
     return render(request, 'rag_app/rag.html', {'form': form, 'results': results})
-
