@@ -41,7 +41,6 @@ services:
     environment:
       - SEARXNG_HOSTNAME=localhost
     restart: always
-    user: "1000:1000"
     logging:
       driver: "json-file"
       options:
