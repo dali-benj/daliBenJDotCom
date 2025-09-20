@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.views.decorators.http import require_http_methods
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
-from .forms import QueryForm
+from .forms_simple import SimpleQueryForm
 import os
 import logging
 import requests
@@ -88,9 +88,14 @@ Please provide a helpful answer."""
         return None
 
 def rag_view(request):
+    logger.info(f"RAG view called with method: {request.method}")
     results = None
     if request.method == 'POST':
-        form = QueryForm(request.POST)
+        logger.info("POST request received")
+        form = SimpleQueryForm(request.POST)
+        logger.info(f"Form is valid: {form.is_valid()}")
+        if not form.is_valid():
+            logger.error(f"Form errors: {form.errors}")
         if form.is_valid():
             try:
                 # Sanitize the input *before* saving or using it
@@ -144,5 +149,5 @@ def rag_view(request):
                 return render(request, 'rag_app/rag.html', {'form': form, 'error_message': f"An error occurred: {str(e)}"})
 
     else:
-        form = QueryForm()
+        form = SimpleQueryForm()
     return render(request, 'rag_app/rag.html', {'form': form, 'results': results})

@@ -370,9 +370,12 @@
     
     <script>
         document.getElementById('rag-form').addEventListener('submit', function(e) {
+            console.log('Form submit event triggered');
             const submitBtn = document.getElementById('submit-btn');
             const loading = document.getElementById('loading');
             const queryInput = document.querySelector('input[name="query"]');
+            
+            console.log('Query input value:', queryInput.value);
             
             // Validate input
             if (!queryInput.value.trim()) {
@@ -381,6 +384,8 @@
                 return;
             }
             
+            console.log('Form validation passed, showing loading...');
+            
             // Show loading state
             loading.style.display = 'block';
             submitBtn.disabled = true;
@@ -388,6 +393,8 @@
             
             // Scroll to loading indicator
             loading.scrollIntoView({ behavior: 'smooth' });
+            
+            console.log('Form should be submitting now...');
         });
         
         // Add some interactive effects
