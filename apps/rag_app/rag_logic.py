@@ -94,11 +94,18 @@ async def fetch_and_extract(query, max_results=5, delay=1):
 _faiss_cache = {}
 
 async def perform_search(query, data_file_path, index_path="faiss_index", chain_type="stuff"):
-    # Create a wrapper for the async function to work with LangChain
-    def sync_deepseek_wrapper(prompt, stop=None):
-        return asyncio.run(deepseek_api_call(prompt, stop))
+    import logging
+    logger = logging.getLogger(__name__)
     
-    llm = RunnableLambda(sync_deepseek_wrapper)
+    try:
+        logger.info(f"Starting RAG search for query: {query}")
+        
+        # Create a wrapper for the async function to work with LangChain
+        def sync_deepseek_wrapper(prompt, stop=None):
+            return asyncio.run(deepseek_api_call(prompt, stop))
+        
+        llm = RunnableLambda(sync_deepseek_wrapper)
+        logger.info("LLM wrapper created successfully")
 
     # Load or create FAISS index with caching - SAFE VERSION
     if index_path in _faiss_cache:
@@ -155,8 +162,12 @@ async def perform_search(query, data_file_path, index_path="faiss_index", chain_
         chain_type_kwargs={"prompt": prompt}
     )
 
-    result = qa(query)
-    return {
-        'answer': result['result'],
-        'source_documents': [{'content': doc.page_content, 'metadata': doc.metadata} for doc in result['source_documents']]
-    }
+        result = qa(query)
+        logger.info("RAG search completed successfully")
+        return {
+            'answer': result['result'],
+            'source_documents': [{'content': doc.page_content, 'metadata': doc.metadata} for doc in result['source_documents']]
+        }
+    except Exception as e:
+        logger.error(f"Error in perform_search: {str(e)}", exc_info=True)
+        return None

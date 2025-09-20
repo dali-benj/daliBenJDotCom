@@ -14,42 +14,62 @@ from django.utils.html import escape
 
 
 async def rag_view(request):
+    import logging
+    logger = logging.getLogger(__name__)
+    
     results = None
     if request.method == 'POST':
         form = QueryForm(request.POST)
         if form.is_valid():
-            # Sanitize the input *before* saving or using it
-            query = escape(form.cleaned_data['query'])
+            try:
+                # Sanitize the input *before* saving or using it
+                query = escape(form.cleaned_data['query'])
+                logger.info(f"Processing RAG query: {query}")
 
-            # Store the query in the database
-            query_obj = Query(query_text=query)
+                # Store the query in the database
+                query_obj = Query(query_text=query)
 
-            # Get and store IP address and User-Agent
-            x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-            if x_forwarded_for:
-                ip = x_forwarded_for.split(',')[0]
-            else:
-                ip = request.META.get('REMOTE_ADDR')
-            query_obj.ip_address = ip
+                # Get and store IP address and User-Agent
+                x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+                if x_forwarded_for:
+                    ip = x_forwarded_for.split(',')[0]
+                else:
+                    ip = request.META.get('REMOTE_ADDR')
+                query_obj.ip_address = ip
 
-            user_agent = request.META.get('HTTP_USER_AGENT')
-            query_obj.user_agent = user_agent[:255] if user_agent else None # Truncate to fit.
+                user_agent = request.META.get('HTTP_USER_AGENT')
+                query_obj.user_agent = user_agent[:255] if user_agent else None # Truncate to fit.
 
-            # Save query asynchronously
-            await sync_to_async(query_obj.save)()
+                # Save query asynchronously
+                await sync_to_async(query_obj.save)()
+                logger.info("Query saved to database successfully")
 
-            # Perform async search
-            data_file_path = os.path.join(settings.BASE_DIR,  'apps/rag_app/anime_corner_data.jsonl')
-            index_path = os.path.join(settings.BASE_DIR, 'faiss_index')
-            results = await perform_search(query, data_file_path, index_path)
+                # Perform async search
+                data_file_path = os.path.join(settings.BASE_DIR,  'apps/rag_app/anime_corner_data.jsonl')
+                index_path = os.path.join(settings.BASE_DIR, 'faiss_index')
+                
+                logger.info(f"Data file path: {data_file_path}")
+                logger.info(f"Index path: {index_path}")
+                logger.info(f"Data file exists: {os.path.exists(data_file_path)}")
+                logger.info(f"Index exists: {os.path.exists(index_path)}")
+                
+                results = await perform_search(query, data_file_path, index_path)
+                logger.info(f"Search results: {results is not None}")
 
-            if results is None:
-                return render(request, 'rag_app/rag.html', {'form': form, 'error_message': "Failed to load RAG system."})
-            
-            # Save the answer to the database asynchronously
-            query_obj.answer_text = results['answer']
-            await sync_to_async(query_obj.save)()
-            return render(request, 'rag_app/rag.html', {'form': form, 'results': results})
+                if results is None:
+                    error_msg = "Failed to load RAG system. Check logs for details."
+                    logger.error("RAG search returned None")
+                    return render(request, 'rag_app/rag.html', {'form': form, 'error_message': error_msg})
+                
+                # Save the answer to the database asynchronously
+                query_obj.answer_text = results['answer']
+                await sync_to_async(query_obj.save)()
+                logger.info("Answer saved to database successfully")
+                return render(request, 'rag_app/rag.html', {'form': form, 'results': results})
+                
+            except Exception as e:
+                logger.error(f"Error in RAG view: {str(e)}", exc_info=True)
+                return render(request, 'rag_app/rag.html', {'form': form, 'error_message': f"An error occurred: {str(e)}"})
 
     else:
         form = QueryForm()
