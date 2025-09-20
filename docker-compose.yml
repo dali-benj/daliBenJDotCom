@@ -37,10 +37,11 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - searxng_data:/etc/searxng
+      - ./searxng:/etc/searxng:ro
     environment:
       - SEARXNG_HOSTNAME=localhost
     restart: always
+    user: "1000:1000"
     logging:
       driver: "json-file"
       options:

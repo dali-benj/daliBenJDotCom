@@ -59,12 +59,16 @@ async def fetch_searxng_results(query, max_results=3):
             'q': query,
             'format': 'json',
             'categories': 'general',
-            'engines': 'google,bing,duckduckgo,startpage',
             'safesearch': '0'
         }
         
+        # Add User-Agent header to avoid 403 errors
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (compatible; RAG-System/1.0)'
+        }
+        
         async with aiohttp.ClientSession() as session:
-            async with session.get(searxng_url, params=params, timeout=10) as response:
+            async with session.get(searxng_url, params=params, headers=headers, timeout=10) as response:
                 if response.status == 200:
                     data = await response.json()
                     results = []
@@ -79,7 +83,8 @@ async def fetch_searxng_results(query, max_results=3):
                     logger.info(f"SearxNG returned {len(results)} results")
                     return results
                 else:
-                    logger.error(f"SearxNG returned status {response.status}")
+                    response_text = await response.text()
+                    logger.error(f"SearxNG returned status {response.status}: {response_text[:200]}")
                     return []
                     
     except Exception as e:

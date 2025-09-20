@@ -1,0 +1,116 @@
+use_default_settings: true
+
+general:
+  debug: false
+  instance_name: "SearXNG for RAG System"
+  contact_url: false
+  enable_metrics: false
+
+brand:
+  new_issue_url: false
+  docs_url: false
+  public_instances: false
+  wiki_url: false
+  issue_url: false
+
+search:
+  safe_search: 0
+  autocomplete: ""
+  default_lang: "en"
+  ban_time_on_fail: 5
+  max_page: 20
+  formats:
+    - html
+    - json
+
+server:
+  port: 8080
+  bind_address: "0.0.0.0"
+  secret_key: "your-secret-key-change-this"
+  base_url: false
+  image_proxy: false
+  http_protocol_version: "1.0"
+  method: "POST"
+
+ui:
+  static_use_hash: false
+  default_locale: "en"
+  query_in_title: false
+  infinite_scroll: false
+  center_alignment: false
+  cache_url: "https://web.archive.org/web/"
+  default_theme: "simple"
+  theme_args:
+    simple_style: "auto"
+
+outgoing:
+  request_timeout: 2.0
+  max_request_timeout: 3.0
+  useragent_suffix: "SearXNG"
+  pool_connections: 100
+  pool_maxsize: 100
+  enable_http2: true
+  max_connections: 20
+  max_keepalive_connections: 2
+  keepalive_expiry: 0
+  max_redirects: 5
+  retries: 3
+  retry_on_http_error:
+    - 408
+    - 429
+    - 500
+    - 502
+    - 503
+    - 504
+
+engines:
+  - name: google
+    engine: google
+    shortcut: go
+    categories: general
+    disabled: false
+    timeout: 3.0
+    tokens: []
+    max_page: 10
+    safesearch: false
+    send_accept_language_header: true
+
+  - name: bing
+    engine: bing
+    shortcut: bi
+    categories: general
+    disabled: false
+    timeout: 3.0
+    tokens: []
+    max_page: 10
+    safesearch: false
+
+  - name: duckduckgo
+    engine: duckduckgo
+    shortcut: ddg
+    categories: general
+    disabled: false
+    timeout: 3.0
+    tokens: []
+    max_page: 10
+    safesearch: false
+
+  - name: startpage
+    engine: startpage
+    shortcut: sp
+    categories: general
+    disabled: false
+    timeout: 3.0
+    tokens: []
+    max_page: 10
+    safesearch: false
+
+  - name: wikipedia
+    engine: wikipedia
+    shortcut: wp
+    categories: general
+    disabled: false
+    timeout: 3.0
+    tokens: []
+    max_page: 10
+    safesearch: false
