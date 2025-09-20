@@ -46,9 +46,53 @@ async def deepseek_api_call(prompt, stop=None):
         raise
 
 
-async def fetch_and_extract(query, max_results=5, delay=1):
-    search = DuckDuckGoSearchResults(output_format="list", max_results=max_results)
-    web_results = search.invoke(query)
+async def fetch_and_extract(query, max_results=3, delay=2):
+    import time
+    
+    # Check cache first to avoid duplicate API calls
+    cache_key = f"{query.lower().strip()}_{max_results}"
+    if cache_key in _search_cache:
+        logger.info(f"Using cached search results for '{query}'")
+        return _search_cache[cache_key]
+    
+    # Reduce max_results to minimize API calls and add delay
+    logger.info(f"Searching for '{query}' with max_results={max_results}")
+    
+    # Add initial delay to be more respectful to the API
+    await asyncio.sleep(delay)
+    
+    # Retry mechanism for DuckDuckGo rate limiting
+    max_retries = 2  # Reduced retries to be less aggressive
+    web_results = []
+    
+    for attempt in range(max_retries):
+        try:
+            # Use more conservative search parameters
+            search = DuckDuckGoSearchResults(
+                output_format="list", 
+                max_results=max_results,
+                safesearch="moderate"  # Add safesearch to potentially reduce load
+            )
+            web_results = search.invoke(query)
+            break
+        except Exception as e:
+            if "Ratelimit" in str(e) or "202" in str(e):
+                if attempt < max_retries - 1:
+                    wait_time = (3 ** attempt) + 2  # Longer backoff: 3, 5 seconds
+                    logger.warning(f"DuckDuckGo rate limited, waiting {wait_time} seconds before retry {attempt + 1}")
+                    await asyncio.sleep(wait_time)
+                    continue
+                else:
+                    logger.error(f"DuckDuckGo search failed after {max_retries} attempts: {str(e)}")
+                    raise Exception(f"Web search unavailable: {str(e)}")
+            else:
+                logger.error(f"DuckDuckGo search error: {str(e)}")
+                raise Exception(f"Web search error: {str(e)}")
+    
+    if not web_results:
+        logger.warning("No web search results found")
+        raise Exception("No web search results found")
+    
     documents = []
     
     async def fetch_single_url(session, result):
@@ -76,10 +120,15 @@ async def fetch_and_extract(query, max_results=5, delay=1):
             print(f"An unexpected error occurred processing {link}: {e}")
             return None
     
-    # Fetch all URLs concurrently
+    # Fetch all URLs with staggered requests to be more respectful
     async with aiohttp.ClientSession() as session:
-        tasks = [fetch_single_url(session, result) for result in web_results]
-        results = await asyncio.gather(*tasks, return_exceptions=True)
+        results = []
+        for i, result in enumerate(web_results):
+            # Add small delay between requests to avoid overwhelming servers
+            if i > 0:
+                await asyncio.sleep(0.5)
+            doc = await fetch_single_url(session, result)
+            results.append(doc)
         
         for result in results:
             if result and not isinstance(result, Exception):
@@ -87,11 +136,18 @@ async def fetch_and_extract(query, max_results=5, delay=1):
             elif isinstance(result, Exception):
                 print(f"Task failed with exception: {result}")
     
+    # Cache the results to avoid future duplicate API calls
+    _search_cache[cache_key] = documents
+    logger.info(f"Cached search results for '{query}' ({len(documents)} documents)")
+    
     return documents
 
 
 # Global cache for FAISS index to avoid reloading
 _faiss_cache = {}
+
+# Simple cache for search results to avoid duplicate API calls
+_search_cache = {}
 
 async def perform_search(query, data_file_path, index_path="faiss_index", chain_type="stuff"):
     import logging
@@ -140,9 +196,14 @@ async def perform_search(query, data_file_path, index_path="faiss_index", chain_
 
         # Fetch web documents asynchronously
         web_documents = await fetch_and_extract(query)
+        if not web_documents:
+            logger.error("Failed to fetch web documents - this is required for the RAG system")
+            return None
+        
         text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100)
         web_texts = text_splitter.split_documents(web_documents)
         db.add_documents(web_texts)
+        logger.info(f"Added {len(web_texts)} web documents to the vector store")
 
         template = """You are a helpful AI assistant.  Use the following pieces of context to answer the question at the end.
         If you don't know the answer, just say that you don't know, don't try to make up an answer.  Keep your answer concise.
@@ -169,6 +230,9 @@ async def perform_search(query, data_file_path, index_path="faiss_index", chain_
         logger.info(f"Number of source documents from QA: {len(result['source_documents'])}")
         for i, doc in enumerate(result['source_documents']):
             logger.info(f"Source doc {i}: content length={len(doc.page_content)}, metadata={doc.metadata}")
+            # Log first 100 characters of content for debugging
+            content_preview = doc.page_content[:100] + "..." if len(doc.page_content) > 100 else doc.page_content
+            logger.info(f"Source doc {i} content preview: {content_preview}")
         
         source_docs = [{'content': doc.page_content, 'metadata': doc.metadata} for doc in result['source_documents']]
         logger.info(f"Processed source docs: {len(source_docs)}")
