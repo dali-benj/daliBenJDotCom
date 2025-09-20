@@ -43,44 +43,90 @@ def simple_deepseek_api_call(prompt, stop=None):
         logger.error(f"API response error: {e}")
         raise
 
+def fetch_web_results(query, max_results=3):
+    """Fetch web search results using DuckDuckGo"""
+    try:
+        from duckduckgo_search import DDGS
+        
+        logger.info(f"Searching web for: {query}")
+        with DDGS() as ddgs:
+            results = list(ddgs.text(query, max_results=max_results))
+        
+        logger.info(f"Found {len(results)} web results")
+        return results
+    except Exception as e:
+        logger.error(f"Error fetching web results: {e}")
+        return []
+
 def simple_perform_search(query, data_file_path, index_path="faiss_index"):
-    """Simple version of RAG search for debugging"""
+    """Simple version of RAG search with web results"""
     try:
         logger.info(f"Starting simple RAG search for query: {query}")
         
-        # Check if data file exists
-        if not os.path.exists(data_file_path):
-            logger.error(f"Data file not found at {data_file_path}")
-            return None
+        # Fetch web search results
+        web_results = fetch_web_results(query, max_results=3)
+        
+        # Build context from web results
+        context_parts = []
+        source_documents = []
+        
+        for i, result in enumerate(web_results):
+            title = result.get('title', 'Unknown Title')
+            body = result.get('body', 'No content available')
+            url = result.get('href', 'Unknown URL')
             
-        # For now, just return a simple response using the API
-        # This bypasses the complex FAISS/LangChain setup
-        simple_prompt = f"""Based on the following context, answer the question: {query}
+            context_parts.append(f"Source {i+1}: {title}\nContent: {body}")
+            source_documents.append({
+                'content': f"{title}: {body}",
+                'metadata': {'source': url, 'title': title}
+            })
+        
+        # Add local data if available
+        if os.path.exists(data_file_path):
+            try:
+                with open(data_file_path, 'r', encoding='utf-8') as f:
+                    local_content = f.read()
+                context_parts.append(f"Local Knowledge Base:\n{local_content}")
+                source_documents.append({
+                    'content': local_content,
+                    'metadata': {'source': 'local_knowledge_base'}
+                })
+            except Exception as e:
+                logger.warning(f"Could not read local data file: {e}")
+        
+        # Combine all context
+        full_context = "\n\n".join(context_parts) if context_parts else "No context available"
+        
+        # Create the prompt with real context
+        prompt = f"""Based on the following context from web search results and knowledge base, answer the question: {query}
 
-Context: This is a sample RAG system. The user is asking: {query}
+Context:
+{full_context}
 
-Please provide a helpful answer."""
+Question: {query}
+
+Please provide a helpful answer based on the context above. If the context doesn't contain enough information to answer the question, say so."""
         
         try:
             # Check if API key is available
             if not hasattr(settings, 'DEEPSEEK_API_KEY') or not settings.DEEPSEEK_API_KEY:
                 logger.warning("No DeepSeek API key found, using fallback response")
                 return {
-                    'answer': f"Hello! You asked: '{query}'. This is a demo response. To get AI-powered answers, please configure the DeepSeek API key.",
-                    'source_documents': [{'content': 'Demo response', 'metadata': {'source': 'fallback'}}]
+                    'answer': f"Hello! You asked: '{query}'. I found {len(web_results)} web results but need an API key to process them. Please configure the DeepSeek API key.",
+                    'source_documents': source_documents
                 }
             
-            answer = simple_deepseek_api_call(simple_prompt)
-            logger.info("Simple search completed successfully")
+            answer = simple_deepseek_api_call(prompt)
+            logger.info("Simple search with web results completed successfully")
             return {
                 'answer': answer,
-                'source_documents': [{'content': 'Sample context', 'metadata': {'source': 'test'}}]
+                'source_documents': source_documents
             }
         except Exception as e:
             logger.error(f"API call failed: {e}")
             return {
-                'answer': f"I'm sorry, I couldn't process your request due to an API error: {str(e)}. This is a demo response for: '{query}'",
-                'source_documents': [{'content': 'Error fallback', 'metadata': {'source': 'error'}}]
+                'answer': f"I'm sorry, I couldn't process your request due to an API error: {str(e)}. However, I found {len(web_results)} web results that might be relevant.",
+                'source_documents': source_documents
             }
             
     except Exception as e:
