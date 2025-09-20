@@ -49,6 +49,13 @@ def rag_view(request):
                 if results is None:
                     return render(request, 'rag_app/rag.html', {'form': form, 'error_message': "Failed to load RAG system."})
                 
+                # Debug: Log the results structure
+                logger.info(f"Results structure: {type(results)}")
+                if 'source_documents' in results:
+                    logger.info(f"Number of source documents: {len(results['source_documents'])}")
+                    for i, doc in enumerate(results['source_documents']):
+                        logger.info(f"Doc {i}: {type(doc)} - {doc}")
+                
                 # Save the answer to the database
                 query_obj.answer_text = results['answer']
                 query_obj.save()

@@ -354,9 +354,20 @@
                         {% for doc in results.source_documents %}
                             <div class="source-doc">
                                 <h4>Document {{ forloop.counter }}</h4>
-                                <p>{{ doc.content|truncatewords:50 }}</p>
+                                {% if doc.content %}
+                                    <p>{{ doc.content|truncatewords:50 }}</p>
+                                {% else %}
+                                    <p><em>No content available</em></p>
+                                {% endif %}
                                 <div class="metadata">
-                                    <strong>Source:</strong> {{ doc.metadata.source|default:"Unknown" }}
+                                    {% if doc.metadata %}
+                                        <strong>Source:</strong> {{ doc.metadata.source|default:"Unknown" }}
+                                        {% if doc.metadata.title %}
+                                            <br><strong>Title:</strong> {{ doc.metadata.title }}
+                                        {% endif %}
+                                    {% else %}
+                                        <strong>Source:</strong> Unknown
+                                    {% endif %}
                                 </div>
                             </div>
                         {% endfor %}

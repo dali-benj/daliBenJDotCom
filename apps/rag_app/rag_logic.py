@@ -164,9 +164,18 @@ async def perform_search(query, data_file_path, index_path="faiss_index", chain_
 
         result = qa(query)
         logger.info("RAG search completed successfully")
+        
+        # Debug: Log the source documents
+        logger.info(f"Number of source documents from QA: {len(result['source_documents'])}")
+        for i, doc in enumerate(result['source_documents']):
+            logger.info(f"Source doc {i}: content length={len(doc.page_content)}, metadata={doc.metadata}")
+        
+        source_docs = [{'content': doc.page_content, 'metadata': doc.metadata} for doc in result['source_documents']]
+        logger.info(f"Processed source docs: {len(source_docs)}")
+        
         return {
             'answer': result['result'],
-            'source_documents': [{'content': doc.page_content, 'metadata': doc.metadata} for doc in result['source_documents']]
+            'source_documents': source_docs
         }
     except Exception as e:
         logger.error(f"Error in perform_search: {str(e)}", exc_info=True)
