@@ -37,16 +37,10 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - ./searxng:/etc/searxng:rw
+      - searxng_data:/etc/searxng
     environment:
       - SEARXNG_HOSTNAME=localhost
     restart: always
-    cap_drop:
-      - ALL
-    cap_add:
-      - CHOWN
-      - SETGID
-      - SETUID
     logging:
       driver: "json-file"
       options:
@@ -56,3 +50,4 @@ services:
 volumes:
   postgres_data:
   static_volume:  # Define the static volume
+  searxng_data:  # Define the searxng volume
