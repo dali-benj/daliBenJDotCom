@@ -250,6 +250,11 @@ async def perform_search(query, data_file_path, index_path="faiss_index", chain_
                 db = FAISS.load_local(index_path, embeddings, allow_dangerous_deserialization=True) #Safe to set True
                 _faiss_cache[index_path] = db  # Cache the loaded index
                 print("Loaded existing FAISS index (with safe deserialization).")
+                
+                # Update metadata for existing documents to show just filename
+                import os
+                filename = os.path.basename(data_file_path)
+                # Note: FAISS doesn't allow direct metadata updates, but new documents will have correct metadata
             except ValueError as e:
                 if "allow_dangerous_deserialization" in str(e):
                     print("ERROR:  Could not load the index.  It may be from an untrusted source.")
@@ -265,6 +270,12 @@ async def perform_search(query, data_file_path, index_path="faiss_index", chain_
             documents = loader.load()
             text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100)
             texts = text_splitter.split_documents(documents)
+            
+            # Update metadata to show just the filename
+            import os
+            filename = os.path.basename(data_file_path)
+            for text in texts:
+                text.metadata['source'] = filename
             embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-mpnet-base-v2")
             db = FAISS.from_documents(texts, embeddings)
             db.save_local(index_path)
