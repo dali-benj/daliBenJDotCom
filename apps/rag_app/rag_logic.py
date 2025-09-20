@@ -34,7 +34,7 @@ async def deepseek_api_call(prompt, stop=None):
     }
     try:
         async with aiohttp.ClientSession() as session:
-            async with session.post(url, headers=headers, json=data, timeout=aiohttp.ClientTimeout(total=30)) as response:
+            async with session.post(url, headers=headers, json=data, timeout=aiohttp.ClientTimeout(total=60)) as response:
                 response.raise_for_status()
                 result = await response.json()
                 return result["choices"][0]["message"]["content"]
@@ -65,7 +65,7 @@ def sync_deepseek_api_call(prompt, stop=None):
         "messages": [{"role": "user", "content": prompt}]
     }
     try:
-        response = requests.post(url, headers=headers, json=data, timeout=30)
+        response = requests.post(url, headers=headers, json=data, timeout=60)
         response.raise_for_status()
         result = response.json()
         return result["choices"][0]["message"]["content"]
@@ -100,7 +100,7 @@ async def fetch_searxng_results(query, max_results=10):
         }
         
         async with aiohttp.ClientSession() as session:
-            async with session.get(searxng_url, params=params, headers=headers, timeout=10) as response:
+            async with session.get(searxng_url, params=params, headers=headers, timeout=aiohttp.ClientTimeout(total=60)) as response:
                 if response.status == 200:
                     data = await response.json()
                     results = []
@@ -179,7 +179,7 @@ async def fetch_and_extract(query, max_results=10, delay=2):
     async def fetch_single_url(session, result):
         link = result["link"]
         try:
-            async with session.get(link, timeout=aiohttp.ClientTimeout(total=10)) as response:
+            async with session.get(link, timeout=aiohttp.ClientTimeout(total=30)) as response:
                 response.raise_for_status()
                 html_content = await response.text()
                 
