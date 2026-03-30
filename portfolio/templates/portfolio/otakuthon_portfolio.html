@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -291,26 +292,10 @@
             <h2 class="section-title">Photography & Albums</h2>
             <div class="masonry-grid" style="column-count: 2;">
                 <!-- Buttons for generic links -->
-                <div class="masonry-item placeholder-card">
-                    <h3 style="color: var(--text-heading); font-family: 'Outfit';">Photo Album 1</h3>
-                    <p>View the curated media collection hosted on Facebook.</p>
-                    <a href="https://www.facebook.com/media/set/?set=a.2147092155374036&type=3" target="_blank" class="btn-action">View Album</a>
-                </div>
-                <div class="masonry-item placeholder-card">
-                    <h3 style="color: var(--text-heading); font-family: 'Outfit';">Photo Album 2</h3>
-                    <p>View the curated media collection hosted on Facebook.</p>
-                    <a href="https://www.facebook.com/media/set/?set=a.2694192020664044&type=3" target="_blank" class="btn-action">View Album</a>
-                </div>
-                <div class="masonry-item placeholder-card">
-                    <h3 style="color: var(--text-heading); font-family: 'Outfit';">Photo Album 3</h3>
-                    <p>View the curated media collection hosted on Facebook.</p>
-                    <a href="https://www.facebook.com/media/set/?set=a.1546426472107277&type=3" target="_blank" class="btn-action">View Album</a>
-                </div>
-                <div class="masonry-item placeholder-card">
-                    <h3 style="color: var(--text-heading); font-family: 'Outfit';">Photo Album 4</h3>
-                    <p>View the curated media collection hosted on Facebook.</p>
-                    <a href="https://www.facebook.com/media/set/?set=a.1306085772808016&type=3" target="_blank" class="btn-action">View Album</a>
-                </div>
+                <div class="masonry-item"><div class="fb-post" data-href="https://www.facebook.com/media/set/?set=a.2147092155374036&type=3" data-show-text="true" data-width="auto"></div></div>
+                <div class="masonry-item"><div class="fb-post" data-href="https://www.facebook.com/media/set/?set=a.2694192020664044&type=3" data-show-text="true" data-width="auto"></div></div>
+                <div class="masonry-item"><div class="fb-post" data-href="https://www.facebook.com/media/set/?set=a.1546426472107277&type=3" data-show-text="true" data-width="auto"></div></div>
+                <div class="masonry-item"><div class="fb-post" data-href="https://www.facebook.com/media/set/?set=a.1306085772808016&type=3" data-show-text="true" data-width="auto"></div></div>
             </div>
         </div>
 
@@ -345,8 +330,7 @@
                 <div class="masonry-item">
                     <a class="article-card" href="https://animecorner.me/why-rock-is-a-ladys-modesty-is-the-hidden-gem-of-the-season/" target="_blank">
                         <div class="article-card-thumb-wrapper">
-                            <!-- referrerpolicy directly on img bypasses basic hotlink blocks -->
-                            <img class="article-card-img" src="https://animecorner.me/wp-content/uploads/2024/09/rock-is-a-ladys-modesty-anime.jpg" alt="Article Thumbnail" referrerpolicy="no-referrer">
+                            <img class="article-card-img" src="{% static 'portfolio/images/rock lady.webp' %}" alt="Article Thumbnail">
                             <span class="ac-badge">Article</span>
                         </div>
                         <div class="article-card-content">
@@ -360,7 +344,7 @@
                 <div class="masonry-item">
                     <a class="article-card" href="https://animecorner.me/gawr-gura-announces-graduation/" target="_blank">
                         <div class="article-card-thumb-wrapper">
-                            <img class="article-card-img" src="https://animecorner.me/wp-content/uploads/2022/09/gawr-gura.jpg" alt="Article Thumbnail" referrerpolicy="no-referrer">
+                            <img class="article-card-img" src="{% static 'portfolio/images/gura graduation.webp' %}" alt="Article Thumbnail">
                             <span class="ac-badge">Article</span>
                         </div>
                         <div class="article-card-content">
@@ -374,7 +358,7 @@
                 <div class="masonry-item">
                     <a class="article-card" href="https://animecorner.me/evolution-of-a-reaper-mori-calliopes-phantomime-explores-authenticity/" target="_blank">
                         <div class="article-card-thumb-wrapper">
-                            <img class="article-card-img" src="https://animecorner.me/wp-content/uploads/2023/12/mori-calliope-cover.jpeg" alt="Article Thumbnail" referrerpolicy="no-referrer">
+                            <img class="article-card-img" src="{% static 'portfolio/images/mori interview.webp' %}" alt="Article Thumbnail">
                             <span class="ac-badge">Interview</span>
                         </div>
                         <div class="article-card-content">
@@ -388,7 +372,7 @@
                 <div class="masonry-item">
                     <a class="article-card" href="https://animecorner.me/gori-cuddly-carnage-a-purrfectly-bloody-good-time/" target="_blank">
                         <div class="article-card-thumb-wrapper">
-                            <img class="article-card-img" src="https://animecorner.me/wp-content/uploads/2024/08/gori-cuddly-carnage-key-art.jpg" alt="Article Thumbnail" referrerpolicy="no-referrer">
+                            <img class="article-card-img" src="{% static 'portfolio/images/gori.jpg' %}" alt="Article Thumbnail">
                             <span class="ac-badge">Review</span>
                         </div>
                         <div class="article-card-content">
