@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Otakuthon Staff Portfolio - Media & Communications</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Outfit:wght@300;500;700&display=swap"
+        rel="stylesheet">
+
+    <!-- CSS Styling (Light Anime Coded Theme) -->
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #FFF0F5 0%, #E6E6FA 100%);
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --card-border: rgba(255, 192, 203, 0.5);
+            --text-main: #4A4A68;
+            --text-heading: #7B68EE;
+            --accent-pink: #FFB6C1;
+            --accent-blue: #87CEFA;
+            --shadow-soft: 0 10px 25px rgba(123, 104, 238, 0.15);
+            --shadow-hover: 0 15px 35px rgba(255, 105, 180, 0.25);
+            --border-radius: 20px;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: var(--bg-gradient);
+            background-attachment: fixed;
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        /* Ambient Background elements */
+        .ambient-shape {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: -1;
+            opacity: 0.6;
+            animation: float 10s infinite alternate ease-in-out;
+        }
+
+        .shape-1 {
+            width: 400px;
+            height: 400px;
+            background: rgba(255, 182, 193, 0.4);
+            top: -100px;
+            left: -100px;
+        }
+
+        .shape-2 {
+            width: 500px;
+            height: 500px;
+            background: rgba(135, 206, 250, 0.4);
+            bottom: -200px;
+            right: -100px;
+            animation-delay: -5s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translate(0, 0);
+            }
+
+            100% {
+                transform: translate(50px, 30px);
+            }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 70px;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 3.5rem;
+            color: var(--text-heading);
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8);
+            background: -webkit-linear-gradient(45deg, #7B68EE, #FF69B4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p.subtitle {
+            font-size: 1.2rem;
+            color: #6A5ACD;
+            max-width: 600px;
+            margin: 0 auto;
+            font-weight: 600;
+        }
+
+        .section-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
+            color: var(--text-heading);
+            margin: 50px 0 30px;
+            padding-bottom: 15px;
+            border-bottom: 3px dashed var(--accent-pink);
+            display: inline-block;
+        }
+
+        /* Grid Layouts */
+        .masonry-grid {
+            column-count: 3;
+            column-gap: 30px;
+            padding-top: 10px;
+        }
+
+        .masonry-item {
+            break-inside: avoid;
+            margin-bottom: 30px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--shadow-soft);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .masonry-item:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        @media (max-width: 1200px) {
+            .masonry-grid {
+                column-count: 2;
+            }
+        }
+
+        @media (max-width: 800px) {
+            .masonry-grid {
+                column-count: 1;
+            }
+        }
+
+        /* Custom Embed Wrappers to make sure they adapt */
+        .fb-post,
+        .twitter-tweet,
+        .instagram-media {
+            width: 100% !important;
+            margin: 0 auto !important;
+            min-width: 0 !important;
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: var(--border-radius);
+            width: 100%;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .reel-container {
+            position: relative;
+            width: 100%;
+            height: 600px;
+            /* Approximated vertical size for reels */
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-soft);
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Article Cards */
+        .article-card {
+            display: flex;
+            flex-direction: column;
+            text-decoration: none;
+            color: var(--text-main);
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-soft);
+            transition: 0.3s;
+            border: 1px solid var(--card-border);
+            height: 100%;
+        }
+
+        .article-card:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--accent-blue);
+        }
+
+        .article-card-thumb {
+            height: 180px;
+            background-color: var(--accent-pink);
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .ac-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #fff;
+            color: #ff0055;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .article-card-content {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .article-card h3 {
+            font-family: 'Outfit', sans-serif;
+            color: var(--text-heading);
+            margin: 0 0 10px 0;
+            font-size: 1.3rem;
+            line-height: 1.4;
+        }
+
+        .article-card p {
+            font-size: 0.95rem;
+            opacity: 0.8;
+            margin: 0;
+            flex-grow: 1;
+        }
+
+        .article-card-footer {
+            margin-top: 15px;
+            font-size: 0.85rem;
+            color: var(--accent-blue);
+            font-weight: bold;
+        }
+
+        /* Buttons for Albums that didn't have specific IDs */
+        .btn-cute {
+            display: inline-block;
+            background: linear-gradient(45deg, var(--accent-pink), var(--accent-blue));
+            color: white;
+            padding: 12px 24px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            font-family: 'Outfit', sans-serif;
+            transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(255, 182, 193, 0.6);
+            margin: 10px;
+        }
+
+        .btn-cute:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(135, 206, 250, 0.8);
+            color: #fff;
+        }
+
+        .author-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- FB SDK -->
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v19.0"
+        nonce="abc"></script>
+
+    <!-- X (Twitter) SDK -->
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+    <!-- Insta SDK -->
+    <script async src="//www.instagram.com/embed.js"></script>
+
+    <div class="ambient-shape shape-1"></div>
+    <div class="ambient-shape shape-2"></div>
+
+    <div class="container">
+        <header>
+            <h1>Media & Communications Portfolio</h1>
+            <p class="subtitle">Prepared for Otakuthon Staff Application — Showcasing Editorial & Social Media
+                Capabilities</p>
+        </header>
+
+        <!-- 1. Photo Albums -->
+        <div>
+            <h2 class="section-title">✨ Photography & Albums</h2>
+            <div class="masonry-grid" style="column-count: 2;">
+                <!-- User provided generic link in txt, providing button fallbacks just in case -->
+                <div class="masonry-item">
+                    <h3 style="color: var(--text-heading); font-family: 'Outfit';">Photo Album 1</h3>
+                    <p>Facebook Media Collection</p>
+                    <a href="https://www.facebook.com/media/set/?type=3" target="_blank" class="btn-cute">View on
+                        Facebook</a>
+                </div>
+                <div class="masonry-item">
+                    <h3 style="color: var(--text-heading); font-family: 'Outfit';">Photo Album 2</h3>
+                    <p>Facebook Media Collection</p>
+                    <a href="https://www.facebook.com/media/set/?type=3" target="_blank" class="btn-cute">View on
+                        Facebook</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. Video Work -->
+        <div>
+            <h2 class="section-title">🎥 Videography</h2>
+            <div class="masonry-grid" style="column-count: 2;">
+                <div class="masonry-item" style="padding: 0; background: transparent; border: none; box-shadow: none;">
+                    <h3
+                        style="color: var(--text-heading); font-family: 'Outfit'; text-align: center; margin-bottom: 15px; background: var(--card-bg); padding: 10px 20px; border-radius: 30px; border: 1px solid var(--card-border);">
+                        Filming + Speaking</h3>
+                    <div class="reel-container">
+                        <iframe
+                            src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Freel%2F133364574652773&show_text=false&width=350"
+                            width="350" height="600" style="border:none;overflow:hidden" scrolling="no" frameborder="0"
+                            allowfullscreen="true"
+                            allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+                    </div>
+                </div>
+                <div class="masonry-item"
+                    style="padding: 0; background: transparent; border: none; box-shadow: none; display: flex; flex-direction: column; justify-content: flex-start;">
+                    <h3
+                        style="color: var(--text-heading); font-family: 'Outfit'; text-align: center; margin-bottom: 15px; background: var(--card-bg); padding: 10px 20px; border-radius: 30px; border: 1px solid var(--card-border);">
+                        Filming + Editing</h3>
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/LJDgLLyzKGI" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Editorials -->
+        <div>
+            <h2 class="section-title">✍️ AnimeCorner Articles</h2>
+            <div class="masonry-grid" style="column-count: 2;">
+
+                <a class="article-card"
+                    href="https://animecorner.me/why-rock-is-a-ladys-modesty-is-the-hidden-gem-of-the-season/"
+                    target="_blank">
+                    <div class="article-card-thumb"
+                        style="background-image: url('https://animecorner.me/wp-content/uploads/2024/09/rock-is-a-ladys-modesty-anime.jpg');">
+                        <span class="ac-badge">AnimeCorner</span>
+                    </div>
+                    <div class="article-card-content">
+                        <h3>Why Rock Is a Lady’s Modesty Is the Hidden Gem of the Season</h3>
+                        <p>Rock Is a Lady's Modesty is essentially an anime about rich young ladies getting off to each
+                            other in front of an audience, while playing instrumental rock.</p>
+                        <div class="article-card-footer">Read Full Article →</div>
+                    </div>
+                </a>
+
+                <a class="article-card" href="https://animecorner.me/gawr-gura-announces-graduation/" target="_blank">
+                    <div class="article-card-thumb"
+                        style="background-image: url('https://animecorner.me/wp-content/uploads/2022/09/gawr-gura.jpg');">
+                        <span class="ac-badge">AnimeCorner</span>
+                    </div>
+                    <div class="article-card-content">
+                        <h3>Gawr Gura Announces Graduation</h3>
+                        <p>Famous VTuber Gawr Gura from Hololive has just announced her graduation, which will happen on
+                            May 1, 2025.</p>
+                        <div class="article-card-footer">Read Full Article →</div>
+                    </div>
+                </a>
+
+                <a class="article-card"
+                    href="https://animecorner.me/evolution-of-a-reaper-mori-calliopes-phantomime-explores-authenticity/"
+                    target="_blank">
+                    <div class="article-card-thumb"
+                        style="background-image: url('https://animecorner.me/wp-content/uploads/2023/12/mori-calliope-cover.jpeg'); background-color: #2F4F4F;">
+                        <span class="ac-badge">AnimeCorner</span>
+                    </div>
+                    <div class="article-card-content">
+                        <h3>Evolution of a Reaper: Mori Calliope's PHANTOMIME Explores Authenticity</h3>
+                        <p>We had the opportunity to interview Mori Calliope following the release of her latest album
+                            PHANTOMIME, released on August 16.</p>
+                        <div class="article-card-footer">Read Full Article →</div>
+                    </div>
+                </a>
+
+                <a class="article-card" href="https://animecorner.me/gori-cuddly-carnage-a-purrfectly-bloody-good-time/"
+                    target="_blank">
+                    <div class="article-card-thumb"
+                        style="background-image: url('https://animecorner.me/wp-content/uploads/2024/08/gori-cuddly-carnage-key-art.jpg'); background-color: #8B0000;">
+                        <span class="ac-badge">AnimeCorner</span>
+                    </div>
+                    <div class="article-card-content">
+                        <h3>Gori: Cuddly Carnage - A Purrfectly Bloody Good Time</h3>
+                        <p>Looking for a game that's equal parts cute and brutal? Gori: Cuddly Carnage is the answer.
+                            It's a journey through a post-apocalyptic world filled with blood.</p>
+                        <div class="article-card-footer">Read Full Article →</div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="author-link">
+                <a href="https://animecorner.me/author/dali" target="_blank" class="btn-cute">View Complete Author
+                    Profile</a>
+            </div>
+        </div>
+
+        <!-- 4. Social Media Management -->
+        <div>
+            <h2 class="section-title">📱 Social Media Posts</h2>
+            <div class="masonry-grid">
+
+                <div class="masonry-item">
+                    <div class="fb-post"
+                        data-href="https://www.facebook.com/AnimeCorner.Official/posts/pfbid02C5tsTPHYQhuKYrNESd6pj6n93XJVLs8HesP1P14JezGEhS9y7SZLzWjGXH1AxD47l"
+                        data-width="auto"></div>
+                </div>
+
+                <div class="masonry-item">
+                    <blockquote class="twitter-tweet" data-theme="light"><a
+                            href="https://x.com/animecorner_ac/status/1696107859506078036"></a></blockquote>
+                </div>
+
+                <div class="masonry-item">
+                    <blockquote class="instagram-media"
+                        data-instgrm-permalink="https://www.instagram.com/p/C-lqAe2tI6h/" data-instgrm-version="14">
+                    </blockquote>
+                </div>
+
+                <div class="masonry-item">
+                    <div class="fb-post"
+                        data-href="https://www.facebook.com/AnimeCorner.Official/posts/what-goes-around-comes-around-vote-for-the-best-anime-in-week-10-acanimespring24/847188990770213/"
+                        data-width="auto"></div>
+                </div>
+
+                <div class="masonry-item">
+                    <blockquote class="twitter-tweet" data-theme="light"><a
+                            href="https://x.com/animecorner_ac/status/1930735562589110299"></a></blockquote>
+                </div>
+
+                <div class="masonry-item">
+                    <div class="fb-post"
+                        data-href="https://www.facebook.com/AnimeCorner.Official/posts/pfbid02U2ZkuNe4qmz6Y8zS7uUXBhEck3563TewRZFqtqhCGkMjEjK1bFRWv7YsSFsR9Lyql"
+                        data-width="auto"></div>
+                </div>
+
+                <div class="masonry-item">
+                    <div class="fb-post"
+                        data-href="https://www.facebook.com/AnimeCorner.Official/posts/pfbid0BDmYDam9ijpmGxXP2WP2QVm4ARfZqPGw4qVjBqyq5fiwBaRcrHoG1io7Do3pi95tl"
+                        data-width="auto"></div>
+                </div>
+
+                <div class="masonry-item">
+                    <div class="fb-post"
+                        data-href="https://www.facebook.com/AnimeCorner.Official/posts/happy-valentines-day-part-2-part-1-httpswwwfacebookcomsharep19qwsdrrf2some-more-/1021132516709192/"
+                        data-width="auto"></div>
+                </div>
+
+                <div class="masonry-item">
+                    <div class="fb-post"
+                        data-href="https://www.facebook.com/AnimeCorner.Official/posts/its-a-two-for-one-deal-anime-the-100-girlfriends-who-really-really-really-really/738015531687560/"
+                        data-width="auto"></div>
+                </div>
+
+                <div class="masonry-item">
+                    <div class="fb-post"
+                        data-href="https://www.facebook.com/AnimeCorner.Official/posts/chisato-holding-a-death-flag-since-episode-1vote-for-lycoris-recoil-acanimesumme/4379790672146221/"
+                        data-width="auto"></div>
+                </div>
+
+                <div class="masonry-item">
+                    <div class="fb-post"
+                        data-href="https://www.facebook.com/AnimeCorner.Official/posts/chisato-sure-adores-takina-vote-for-lycoris-recoil-acanimesummer22-aots/4475222335936387/"
+                        data-width="auto"></div>
+                </div>
+
+                <div class="masonry-item">
+                    <div class="fb-post"
+                        data-href="https://www.facebook.com/AnimeCorner.Official/posts/namedrop-momentbocchi-the-rock/4635294713262481/"
+                        data-width="auto"></div>
+                </div>
+
+                <div class="masonry-item">
+                    <div class="fb-post"
+                        data-href="https://www.facebook.com/AnimeCorner.Official/posts/she-put-that-grimoire-right-to-use-frieren-beyond-journeys-end/701269435362170/"
+                        data-width="auto"></div>
+                </div>
+
+                <div class="masonry-item">
+                    <div class="fb-post"
+                        data-href="https://www.facebook.com/AnimeCorner.Official/posts/truly-a-cause-for-celebration-frieren-beyond-journeys-endvote-for-frieren-in-wee/705462141609566/"
+                        data-width="auto"></div>
+                </div>
+
+                <div class="masonry-item">
+                    <div class="fb-post"
+                        data-href="https://www.facebook.com/AnimeCorner.Official/posts/maomaos-power-level-is-too-high-you-can-now-vote-for-the-apothecary-diaries-in-o/705668211588959/"
+                        data-width="auto"></div>
+                </div>
+
+                <div class="masonry-item">
+                    <div class="fb-post"
+                        data-href="https://www.facebook.com/AnimeCorner.Official/posts/thorfinn-has-finally-realized-his-dream-%EF%B8%8Fvinland-saga-s2/632613198894461/"
+                        data-width="auto"></div>
+                </div>
+
+                <div class="masonry-item">
+                    <div class="fb-post"
+                        data-href="https://www.facebook.com/AnimeCorner.Official/posts/dont-forget-the-dailies-konosuba-an-explosion-on-this-wonderful-world/637592261729888/"
+                        data-width="auto"></div>
+                </div>
+
+                <div class="masonry-item">
+                    <div class="fb-post"
+                        data-href="https://www.facebook.com/AnimeCorner.Official/posts/kamikatsu-entered-the-top-10-for-the-first-time-/607527214736393/"
+                        data-width="auto"></div>
+                </div>
+
+                <div class="masonry-item">
+                    <div class="fb-post"
+                        data-href="https://www.facebook.com/AnimeCorner.Official/posts/4986590644799551/"
+                        data-width="auto"></div>
+                </div>
+
+                <div class="masonry-item">
+                    <div class="fb-post"
+                        data-href="https://www.facebook.com/AnimeCorner.Official/posts/it-hits-different-coming-from-all-for-one-vote-my-hero-academia-s6-for-best-anim/4915518031906813/"
+                        data-width="auto"></div>
+                </div>
+
+                <div class="masonry-item">
+                    <div class="fb-post"
+                        data-href="https://www.facebook.com/AnimeCorner.Official/posts/one-of-the-hottest-name-drops-this-year-anime-frieren-beyond-journeys-end/710361821119598/"
+                        data-width="auto"></div>
+                </div>
+
+                <div class="masonry-item">
+                    <div class="fb-post"
+                        data-href="https://www.facebook.com/AnimeCorner.Official/posts/time-to-find-out-anime-may-i-ask-for-one-final-thing/1241722664650175/"
+                        data-width="auto"></div>
+                </div>
+
+                <div class="masonry-item">
+                    <div class="fb-post"
+                        data-href="https://www.facebook.com/AnimeCorner.Official/posts/who-is-this-beautiful-girl-whose-golden-hair-flutters-in-the-wind-shining-so-muc/1001653731990404/"
+                        data-width="auto"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. Banzai PR -->
+        <div>
+            <h2 class="section-title">📢 Banzai Communication Strategy</h2>
+            <div class="masonry-grid" style="column-count: 2;">
+
+                <div class="masonry-item">
+                    <h3
+                        style="color: var(--text-heading); font-family: 'Outfit'; border-bottom: 2px solid var(--accent-blue); padding-bottom: 10px; width: 100%; text-align: center;">
+                        Banzai 2017</h3>
+                    <div style="height: 15px;"></div>
+                    <div class="fb-post"
+                        data-href="https://www.facebook.com/jetunisia/posts/pfbid05VLJPtzHbqwyuVsdndBCHwHfmGAcsTL5EM7AETC8v9s9XppFrKjPfMMr1esFfGqbl"
+                        data-width="auto" style="margin-bottom: 20px;"></div>
+                    <div class="fb-post"
+                        data-href="https://www.facebook.com/jetunisia/posts/pfbid02NL7BJ6oHfiBQQo9myvtoc8pNswNc87HNrZ9798GnRdGsRhQUfxMu89r9cjwuytSFl"
+                        data-width="auto" style="margin-bottom: 20px;"></div>
+
+                    <a href="https://www.facebook.com/events/109630276367570/?post_id=116169819046949&view=permalink"
+                        target="_blank" class="btn-cute" style="width: 80%; text-align: center;">View Event Post 1</a>
+                    <a href="https://www.facebook.com/events/109630276367570/?post_id=116134942383770&view=permalink"
+                        target="_blank" class="btn-cute" style="width: 80%; text-align: center;">View Event Post 2</a>
+                    <a href="https://www.facebook.com/events/109630276367570/?post_id=116034235727174&view=permalink"
+                        target="_blank" class="btn-cute" style="width: 80%; text-align: center;">View Event Post 3</a>
+                    <a href="https://www.facebook.com/events/109630276367570/?post_id=115983995732198&view=permalink"
+                        target="_blank" class="btn-cute" style="width: 80%; text-align: center;">View Event Post 4</a>
+
+                    <div style="height: 20px;"></div>
+
+                    <div class="fb-post"
+                        data-href="https://www.facebook.com/jetunisia/posts/pfbid0Q2qLpXyiLvzQbtdjxRQWg9cMP3DetdHnADjhuTdhRzqS46EWVH9CQGZY57hd2zUsl"
+                        data-width="auto" style="margin-bottom: 20px;"></div>
+                    <div class="fb-post"
+                        data-href="https://www.facebook.com/jetunisia/posts/pfbid02jqHavZsXeVRsrRZ7NFfwGReSek3r4jub3BGXr4VqoPNDpqDmihwhg7VtykvsiuGql"
+                        data-width="auto" style="margin-bottom: 20px;"></div>
+                    <div class="fb-post"
+                        data-href="https://www.facebook.com/jetunisia/posts/pfbid02stva6PeUvhmbrXVx6AUkguHGnsmbVH9DPVJMjoDSmzHgRjSDxs4Kn5URxcbncQ4Bl"
+                        data-width="auto" style="margin-bottom: 20px;"></div>
+                    <div class="fb-post"
+                        data-href="https://www.facebook.com/jetunisia/posts/pfbid0VfotwKewtCwcKmURptzrxHmo11H3HyEyUbyyVe4baeB2LHPGCfGWkPZhHfqo8sc9l"
+                        data-width="auto" style="margin-bottom: 20px;"></div>
+                    <div class="fb-post"
+                        data-href="https://www.facebook.com/jetunisia/posts/pfbid02oPNCH14FUoXz2srZUnFtE9uXpcdQsP8FEXdBBJX19nTiAn5uJ8ayd4iH4X1MP9PCl"
+                        data-width="auto" style="margin-bottom: 20px;"></div>
+                    <div class="fb-post"
+                        data-href="https://www.facebook.com/jetunisia/posts/pfbid0JyAjto8qoNoTUxBGGhQpANpv7BVbbWfdZ4Uf7qUNjg9SPJfpECUoCYzzmyXbVNKil"
+                        data-width="auto" style="margin-bottom: 20px;"></div>
+                </div>
+
+                <div class="masonry-item">
+                    <h3
+                        style="color: var(--text-heading); font-family: 'Outfit'; border-bottom: 2px solid var(--accent-pink); padding-bottom: 10px; width: 100%; text-align: center;">
+                        Banzai 2018</h3>
+                    <div style="height: 15px;"></div>
+                    <p>Strategic communication and interaction within the event discussion.</p>
+                    <a href="https://www.facebook.com/events/1931260953575535/1931260960242201/?active_tab=discussion"
+                        target="_blank" class="btn-cute">View Discussion Details</a>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</body>
+
+</html>
