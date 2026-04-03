@@ -201,9 +201,10 @@ ALLOWED_HOSTS = ['*'] if DEBUG else os.environ.get('ALLOWED_HOSTS', 'localhost,1
 
 # Security and proxy headers
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-_csrf_origins = os.environ.get('CSRF_TRUSTED_ORIGINS')
+_csrf_origins = os.environ.get('CSRF_TRUSTED_ORIGINS', '')
+CSRF_TRUSTED_ORIGINS = ['https://dalibenj.com', 'https://www.dalibenj.com']
 if _csrf_origins:
-    CSRF_TRUSTED_ORIGINS = [origin.strip() for origin in _csrf_origins.split(',') if origin.strip()]
+    CSRF_TRUSTED_ORIGINS.extend([origin.strip() for origin in _csrf_origins.split(',') if origin.strip()])
 
 # Enable debug toolbar middleware only in DEBUG
 if DEBUG:
