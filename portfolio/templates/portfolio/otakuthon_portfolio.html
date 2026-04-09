@@ -1,23 +1,19 @@
 {% load static %}
 <!DOCTYPE html>
+
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Meta referrer set to no-referrer to allow loading AnimeCorner images avoiding hotlink protection -->
-    <meta name="referrer" content="no-referrer">
-    <title>Otakuthon Staff Portfolio - Media & Communications</title>
-
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Outfit:wght@400;600;800&display=swap"
-        rel="stylesheet">
-
-    <!-- CSS Styling (Light Ghibli/Nature Anime Theme) -->
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<!-- Meta referrer set to no-referrer to allow loading AnimeCorner images avoiding hotlink protection -->
+<meta content="no-referrer" name="referrer"/>
+<title>Otakuthon Staff Portfolio - Media &amp; Communications</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&amp;family=Outfit:wght@400;600;800&amp;display=swap" rel="stylesheet"/>
+<!-- CSS Styling (Light Ghibli/Nature Anime Theme) -->
+<style>
         :root {
             /* Ghibli inspired soft color palette */
             --bg-color: #FDFBF7;
@@ -301,339 +297,793 @@
             text-align: center;
             margin-top: 30px;
         }
-    </style>
+    
+        /* Mock Social Media Cards */
+        .mock-social-card {
+            background: #fff;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            overflow: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: #1c1e21;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            text-decoration: none;
+            transition: box-shadow 0.2s;
+            height: 100%;
+        }
+        .mock-social-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .mock-social-header {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+        }
+        .mock-social-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #efefef;
+            margin-right: 10px;
+            object-fit: cover;
+        }
+        .mock-social-meta {
+            display: flex;
+            flex-direction: column;
+        }
+        .mock-social-name {
+            font-weight: 600;
+            font-size: 14px;
+            color: #1c1e21;
+        }
+        .mock-social-date {
+            font-size: 12px;
+            color: #606770;
+        }
+        .mock-social-body {
+            padding: 0 12px 12px 12px;
+            font-size: 14px;
+            line-height: 1.38;
+            white-space: pre-wrap;
+            word-break: break-word;
+            flex-grow: 1;
+        }
+        .mock-social-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-top: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
+        }
+        .mock-social-footer {
+            padding: 10px 12px;
+            font-size: 13px;
+            color: var(--accent-blue);
+            font-weight: 600;
+            background: #fdfdfd;
+            text-align: center;
+        }
+</style>
 </head>
-
 <body>
+<div class="container">
+<header>
+<h1>Otakuthon Staff Portfolio</h1>
+<p class="subtitle">Media, Communications, and Editorial Work Collection</p>
+</header>
+<!-- 1. Photo Albums -->
+<div>
+<h2 class="section-title">Photography &amp; Albums</h2>
+<div class="masonry-grid" style="column-count: 2;">
+<!-- Buttons for generic links -->
+<div class="masonry-item">
 
-    <!-- FB SDK -->
-    <div id="fb-root"></div>
-    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v19.0"
-        nonce="abc"></script>
+<a class="mock-social-card" href="https://www.facebook.com/media/set/?set=a.2147092155374036&amp;type=3" target="_blank">
+<div class="mock-social-header">
+<img alt="Social Media Post Avatar" class="mock-social-avatar" src="{% static 'portfolio/images/social/default_avatar.jpg' %}"/>
+<div class="mock-social-meta">
+<span class="mock-social-name">Social Media Post</span>
+<span class="mock-social-date">View on Facebook</span>
+</div>
+</div>
+<img alt="Post image" class="mock-social-image" src="{% static 'portfolio/images/social/album_1.jpg' %}"/>
+<div class="mock-social-footer">Open Facebook Post →</div>
+</a>
 
-    <!-- X (Twitter) SDK -->
-    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</div>
+<div class="masonry-item">
 
-    <!-- Insta SDK -->
-    <script async src="//www.instagram.com/embed.js"></script>
+<a class="mock-social-card" href="https://www.facebook.com/media/set/?set=a.2694192020664044&amp;type=3" target="_blank">
+<div class="mock-social-header">
+<img alt="Social Media Post Avatar" class="mock-social-avatar" src="{% static 'portfolio/images/social/default_avatar.jpg' %}"/>
+<div class="mock-social-meta">
+<span class="mock-social-name">Social Media Post</span>
+<span class="mock-social-date">View on Facebook</span>
+</div>
+</div>
+<img alt="Post image" class="mock-social-image" src="{% static 'portfolio/images/social/album_2.jpg' %}"/>
+<div class="mock-social-footer">Open Facebook Post →</div>
+</a>
 
-    <div class="container">
-        <header>
-            <h1>Otakuthon Staff Portfolio</h1>
-            <p class="subtitle">Media, Communications, and Editorial Work Collection</p>
-        </header>
+</div>
+<div class="masonry-item">
 
-        <!-- 1. Photo Albums -->
-        <div>
-            <h2 class="section-title">Photography & Albums</h2>
-            <div class="masonry-grid" style="column-count: 2;">
-                <!-- Buttons for generic links -->
-                <div class="masonry-item">
-                    <div class="fb-post" data-href="https://www.facebook.com/media/set/?set=a.2147092155374036&type=3"
-                        data-show-text="true" data-width="auto"></div>
-                </div>
-                <div class="masonry-item">
-                    <div class="fb-post" data-href="https://www.facebook.com/media/set/?set=a.2694192020664044&type=3"
-                        data-show-text="true" data-width="auto"></div>
-                </div>
-                <div class="masonry-item">
-                    <div class="fb-post" data-href="https://www.facebook.com/media/set/?set=a.1546426472107277&type=3"
-                        data-show-text="true" data-width="auto"></div>
-                </div>
-                <div class="masonry-item">
-                    <div class="fb-post" data-href="https://www.facebook.com/media/set/?set=a.1306085772808016&type=3"
-                        data-show-text="true" data-width="auto"></div>
-                </div>
-            </div>
-        </div>
+<a class="mock-social-card" href="https://www.facebook.com/media/set/?set=a.1546426472107277&amp;type=3" target="_blank">
+<div class="mock-social-header">
+<img alt="Social Media Post Avatar" class="mock-social-avatar" src="{% static 'portfolio/images/social/default_avatar.jpg' %}"/>
+<div class="mock-social-meta">
+<span class="mock-social-name">Social Media Post</span>
+<span class="mock-social-date">View on Facebook</span>
+</div>
+</div>
+<img alt="Post image" class="mock-social-image" src="{% static 'portfolio/images/social/album_3.jpg' %}"/>
+<div class="mock-social-footer">Open Facebook Post →</div>
+</a>
 
-        <!-- 2. Video Work -->
-        <div>
-            <h2 class="section-title">Videography Work</h2>
-            <div class="masonry-grid" style="column-count: 2;">
-                <div class="masonry-item">
-                    <h3 style="text-align: center; margin: 20px 0; font-family: 'Outfit'; color: var(--text-heading);">
+</div>
+<div class="masonry-item">
+
+<a class="mock-social-card" href="https://www.facebook.com/media/set/?set=a.1306085772808016&amp;type=3" target="_blank">
+<div class="mock-social-header">
+<img alt="Social Media Post Avatar" class="mock-social-avatar" src="{% static 'portfolio/images/social/default_avatar.jpg' %}"/>
+<div class="mock-social-meta">
+<span class="mock-social-name">Social Media Post</span>
+<span class="mock-social-date">View on Facebook</span>
+</div>
+</div>
+<img alt="Post image" class="mock-social-image" src="{% static 'portfolio/images/social/album_4.jpg' %}"/>
+<div class="mock-social-footer">Open Facebook Post →</div>
+</a>
+
+</div>
+</div>
+</div>
+<!-- 2. Video Work -->
+<div>
+<h2 class="section-title">Videography Work</h2>
+<div class="masonry-grid" style="column-count: 2;">
+<div class="masonry-item">
+<h3 style="text-align: center; margin: 20px 0; font-family: 'Outfit'; color: var(--text-heading);">
                         Filming + Speaking on Camera
                         <div class="reel-container">
-                            <iframe
-                                src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Freel%2F133364574652773&show_text=false&width=350"
-                                width="350" height="600" style="border:none;overflow:hidden" scrolling="no"
-                                frameborder="0" allowfullscreen="true"
-                                allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
-                        </div>
-                </div>
-                <div class="masonry-item masonry-item-padding">
-                    <h3
-                        style="text-align: center; margin-bottom: 20px; font-family: 'Outfit'; color: var(--text-heading);">
+<iframe allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowfullscreen="true" frameborder="0" height="600" scrolling="no" src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Freel%2F133364574652773&amp;show_text=false&amp;width=350" style="border:none;overflow:hidden" width="350"></iframe>
+</div>
+</h3></div>
+<div class="masonry-item masonry-item-padding">
+<h3 style="text-align: center; margin-bottom: 20px; font-family: 'Outfit'; color: var(--text-heading);">
                         Filming + Editing</h3>
-                    <!-- Fix for YouTube embed restricted playback: Custom Thumbnail with overlay -->
-                    <a class="yt-preview-container" href="https://www.youtube.com/watch?v=LJDgLLyzKGI" target="_blank"
-                        title="Watch on YouTube">
-                        <img class="yt-preview-img" src="https://img.youtube.com/vi/LJDgLLyzKGI/hqdefault.jpg"
-                            alt="YouTube Video Preview" referrerpolicy="no-referrer">
-                        <div class="yt-play-btn">
-                            <div class="yt-play-icon"></div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <!-- 3. Editorials -->
-        <div>
-            <h2 class="section-title">Editorial Writing (AnimeCorner)</h2>
-            <div class="masonry-grid" style="column-count: 2;">
-
-                <div class="masonry-item">
-                    <a class="article-card"
-                        href="https://animecorner.me/why-rock-is-a-ladys-modesty-is-the-hidden-gem-of-the-season/"
-                        target="_blank">
-                        <div class="article-card-thumb-wrapper">
-                            <img class="article-card-img" src="{% static 'portfolio/images/rock lady.webp' %}"
-                                alt="Article Thumbnail">
-                            <span class="ac-badge">Article</span>
-                        </div>
-                        <div class="article-card-content">
-                            <h3>Why Rock Is a Lady’s Modesty Is the Hidden Gem of the Season</h3>
-                            <p>Rock Is a Lady's Modesty is essentially an anime about rich young ladies getting off to
+<!-- Fix for YouTube embed restricted playback: Custom Thumbnail with overlay -->
+<a class="yt-preview-container" href="https://www.youtube.com/watch?v=LJDgLLyzKGI" target="_blank" title="Watch on YouTube">
+<img alt="YouTube Video Preview" class="yt-preview-img" referrerpolicy="no-referrer" src="https://img.youtube.com/vi/LJDgLLyzKGI/hqdefault.jpg"/>
+<div class="yt-play-btn">
+<div class="yt-play-icon"></div>
+</div>
+</a>
+</div>
+</div>
+</div>
+<!-- 3. Editorials -->
+<div>
+<h2 class="section-title">Editorial Writing (AnimeCorner)</h2>
+<div class="masonry-grid" style="column-count: 2;">
+<div class="masonry-item">
+<a class="article-card" href="https://animecorner.me/why-rock-is-a-ladys-modesty-is-the-hidden-gem-of-the-season/" target="_blank">
+<div class="article-card-thumb-wrapper">
+<img alt="Article Thumbnail" class="article-card-img" src="{% static 'portfolio/images/rock lady.webp' %}"/>
+<span class="ac-badge">Article</span>
+</div>
+<div class="article-card-content">
+<h3>Why Rock Is a Lady’s Modesty Is the Hidden Gem of the Season</h3>
+<p>Rock Is a Lady's Modesty is essentially an anime about rich young ladies getting off to
                                 each other in front of an audience, while playing instrumental rock.</p>
-                            <div class="article-card-footer">Read Full Article →</div>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="masonry-item">
-                    <a class="article-card" href="https://animecorner.me/gawr-gura-announces-graduation/"
-                        target="_blank">
-                        <div class="article-card-thumb-wrapper">
-                            <img class="article-card-img" src="{% static 'portfolio/images/gura graduation.webp' %}"
-                                alt="Article Thumbnail">
-                            <span class="ac-badge">Article</span>
-                        </div>
-                        <div class="article-card-content">
-                            <h3>Gawr Gura Announces Graduation</h3>
-                            <p>Famous VTuber Gawr Gura from Hololive has just announced her graduation, which will
+<div class="article-card-footer">Read Full Article →</div>
+</div>
+</a>
+</div>
+<div class="masonry-item">
+<a class="article-card" href="https://animecorner.me/gawr-gura-announces-graduation/" target="_blank">
+<div class="article-card-thumb-wrapper">
+<img alt="Article Thumbnail" class="article-card-img" src="{% static 'portfolio/images/gura graduation.webp' %}"/>
+<span class="ac-badge">Article</span>
+</div>
+<div class="article-card-content">
+<h3>Gawr Gura Announces Graduation</h3>
+<p>Famous VTuber Gawr Gura from Hololive has just announced her graduation, which will
                                 happen on May 1, 2025.</p>
-                            <div class="article-card-footer">Read Full Article →</div>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="masonry-item">
-                    <a class="article-card"
-                        href="https://animecorner.me/evolution-of-a-reaper-mori-calliopes-phantomime-explores-authenticity/"
-                        target="_blank">
-                        <div class="article-card-thumb-wrapper">
-                            <img class="article-card-img" src="{% static 'portfolio/images/mori interview.webp' %}"
-                                alt="Article Thumbnail">
-                            <span class="ac-badge">Interview</span>
-                        </div>
-                        <div class="article-card-content">
-                            <h3>Evolution of a Reaper: Mori Calliope's PHANTOMIME Explores Authenticity</h3>
-                            <p>We had the opportunity to interview Mori Calliope following the release of her latest
+<div class="article-card-footer">Read Full Article →</div>
+</div>
+</a>
+</div>
+<div class="masonry-item">
+<a class="article-card" href="https://animecorner.me/evolution-of-a-reaper-mori-calliopes-phantomime-explores-authenticity/" target="_blank">
+<div class="article-card-thumb-wrapper">
+<img alt="Article Thumbnail" class="article-card-img" src="{% static 'portfolio/images/mori interview.webp' %}"/>
+<span class="ac-badge">Interview</span>
+</div>
+<div class="article-card-content">
+<h3>Evolution of a Reaper: Mori Calliope's PHANTOMIME Explores Authenticity</h3>
+<p>We had the opportunity to interview Mori Calliope following the release of her latest
                                 album PHANTOMIME, released on August 16.</p>
-                            <div class="article-card-footer">Read Full Article →</div>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="masonry-item">
-                    <a class="article-card"
-                        href="https://animecorner.me/gori-cuddly-carnage-a-purrfectly-bloody-good-time/"
-                        target="_blank">
-                        <div class="article-card-thumb-wrapper">
-                            <img class="article-card-img" src="{% static 'portfolio/images/gori.jpg' %}"
-                                alt="Article Thumbnail">
-                            <span class="ac-badge">Review</span>
-                        </div>
-                        <div class="article-card-content">
-                            <h3>Gori: Cuddly Carnage - A Purrfectly Bloody Good Time</h3>
-                            <p>Looking for a game that's equal parts cute and brutal? Gori: Cuddly Carnage is the
+<div class="article-card-footer">Read Full Article →</div>
+</div>
+</a>
+</div>
+<div class="masonry-item">
+<a class="article-card" href="https://animecorner.me/gori-cuddly-carnage-a-purrfectly-bloody-good-time/" target="_blank">
+<div class="article-card-thumb-wrapper">
+<img alt="Article Thumbnail" class="article-card-img" src="{% static 'portfolio/images/gori.jpg' %}"/>
+<span class="ac-badge">Review</span>
+</div>
+<div class="article-card-content">
+<h3>Gori: Cuddly Carnage - A Purrfectly Bloody Good Time</h3>
+<p>Looking for a game that's equal parts cute and brutal? Gori: Cuddly Carnage is the
                                 answer. It's a journey through a post-apocalyptic world filled with blood.</p>
-                            <div class="article-card-footer">Read Full Article →</div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-
-            <div class="author-link">
-                <a href="https://animecorner.me/author/dali" target="_blank" class="btn-action btn-blue">View Complete
+<div class="article-card-footer">Read Full Article →</div>
+</div>
+</a>
+</div>
+</div>
+<div class="author-link">
+<a class="btn-action btn-blue" href="https://animecorner.me/author/dali" target="_blank">View Complete
                     Author Profile</a>
+</div>
+</div>
+<!-- 4. Social Media Management -->
+<div>
+<h2 class="section-title">Social Media Campaigns</h2>
+<div class="masonry-grid">
+<div class="masonry-item">
+
+<a class="mock-social-card" href="https://www.facebook.com/AnimeCorner.Official/posts/pfbid02C5tsTPHYQhuKYrNESd6pj6n93XJVLs8HesP1P14JezGEhS9y7SZLzWjGXH1AxD47l" target="_blank">
+<div class="mock-social-header">
+<img alt="Anime Corner Avatar" class="mock-social-avatar" src="{% static 'portfolio/images/social/ac_logo.jpg' %}"/>
+<div class="mock-social-meta">
+<span class="mock-social-name">Anime Corner</span>
+<span class="mock-social-date">View on Facebook</span>
+</div>
+</div>
+<div class="mock-social-body">Happy Valentine's Day! (Part 2) 💘
+
+Some more anime-inspired valentine cards! ✨</div><img alt="Post image" class="mock-social-image" src="{% static 'portfolio/images/social/facebook_d6f53af6.jpg' %}"/>
+<div class="mock-social-footer">Open Facebook Post →</div>
+</a>
+
+</div>
+<div class="masonry-item">
+
+<a class="mock-social-card" href="https://www.instagram.com/p/C-lqAe2tI6h/" target="_blank">
+<div class="mock-social-header">
+<img alt="Social Media Post Avatar" class="mock-social-avatar" src="{% static 'portfolio/images/social/default_avatar.jpg' %}"/>
+<div class="mock-social-meta">
+<span class="mock-social-name">Social Media Post</span>
+<span class="mock-social-date">View on Instagram</span>
+</div>
+</div>
+<div style="padding: 30px 20px; text-align: center; background: #E8E5DF; color: var(--text-main); font-weight: bold; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd;">
+                [Image Pending - Please add 'insta_post.jpg' to the social images folder]
             </div>
-        </div>
+<div class="mock-social-footer">Open Instagram Post →</div>
+</a>
 
-        <!-- 4. Social Media Management -->
-        <div>
-            <h2 class="section-title">Social Media Campaigns</h2>
-            <div class="masonry-grid">
-                <div class="masonry-item">
-                    <div class="fb-post"
-                        data-href="https://www.facebook.com/AnimeCorner.Official/posts/pfbid02C5tsTPHYQhuKYrNESd6pj6n93XJVLs8HesP1P14JezGEhS9y7SZLzWjGXH1AxD47l"
-                        data-show-text="true" data-width="auto"></div>
-                </div>
-                <div class="masonry-item">
-                    <blockquote class="instagram-media"
-                        data-instgrm-permalink="https://www.instagram.com/p/C-lqAe2tI6h/" data-instgrm-version="14">
-                    </blockquote>
-                </div>
-                <div class="masonry-item">
-                    <div class="fb-post"
-                        data-href="https://www.facebook.com/AnimeCorner.Official/posts/pfbid02Xe3UBo8M3hTrSS3uTstfSWsfMtqXUJ12w77fBazZnehF358hN2VFXFZc8UwXi6scl"
-                        data-show-text="true" data-width="auto"></div>
-                </div>
-                <div class="masonry-item">
-                    <div class="fb-post"
-                        data-href="https://www.facebook.com/AnimeCorner.Official/posts/pfbid02U2ZkuNe4qmz6Y8zS7uUXBhEck3563TewRZFqtqhCGkMjEjK1bFRWv7YsSFsR9Lyql"
-                        data-show-text="true" data-width="auto"></div>
-                </div>
-                <div class="masonry-item">
-                    <div class="fb-post"
-                        data-href="https://www.facebook.com/AnimeCorner.Official/posts/pfbid0BDmYDam9ijpmGxXP2WP2QVm4ARfZqPGw4qVjBqyq5fiwBaRcrHoG1io7Do3pi95tl"
-                        data-show-text="true" data-width="auto"></div>
-                </div>
-                <div class="masonry-item">
-                    <div class="fb-post"
-                        data-href="https://www.facebook.com/AnimeCorner.Official/posts/pfbid023VTie7bSrCZ3yT2bM5v7RRMH6zFJjcggwQvZXydcKk38rBzumFLzmN78GQDtaF3Ql"
-                        data-show-text="true" data-width="auto"></div>
-                </div>
-                <div class="masonry-item">
-                    <div class="fb-post"
-                        data-href="https://www.facebook.com/AnimeCorner.Official/posts/pfbid02DCL7cfVsfW65ZaNvUoxbirEyWn1cxXXE6xXHUb2UvPupzfL2xRMfiqjmd9DewiWtl"
-                        data-show-text="true" data-width="auto"></div>
-                </div>
-                <div class="masonry-item">
-                    <div class="fb-post"
-                        data-href="https://www.facebook.com/AnimeCorner.Official/posts/pfbid02BP3wA4J2sno56B2Txyds3DmwqUSaevKjZUBfWNospYoKRbBPr5qRqXvTsc9AxzJQl"
-                        data-show-text="true" data-width="auto"></div>
-                </div>
-                <div class="masonry-item">
-                    <div class="fb-post"
-                        data-href="https://www.facebook.com/AnimeCorner.Official/posts/pfbid02wwqUp311NJtDuGwUnF9EkixGYf1RhuyHV66jQYYn9gkqkkodR9Kot16yetVct8fzl"
-                        data-show-text="true" data-width="auto"></div>
-                </div>
-                <div class="masonry-item">
-                    <div class="fb-post"
-                        data-href="https://www.facebook.com/AnimeCorner.Official/posts/pfbid0iWd7yDsCt6P6vZyeuZ1UuwVLGNuim2T6Rt68JzgeHGHzSd8pfuRYi648J8Rdyse6l"
-                        data-show-text="true" data-width="auto"></div>
-                </div>
-                <div class="masonry-item">
-                    <div class="fb-post"
-                        data-href="https://www.facebook.com/AnimeCorner.Official/posts/pfbid033QyxUakXMUUKdpUnJAHJcGvJ88jMstTMZxLnPsf26yTMUr5Xtj81NFyv3NEY3sb6l"
-                        data-show-text="true" data-width="auto"></div>
-                </div>
-                <div class="masonry-item">
-                    <div class="fb-post"
-                        data-href="https://www.facebook.com/AnimeCorner.Official/posts/pfbid0o7yD5MTVXt8kxGNwphtMw5ayomiGzTnRKBhuk5tpbJFL6Qbk6R3nrqmTBaewmWukl"
-                        data-show-text="true" data-width="auto"></div>
-                </div>
-                <div class="masonry-item">
-                    <div class="fb-post"
-                        data-href="https://www.facebook.com/AnimeCorner.Official/posts/pfbid02DPaY3YEfHbaxPEMHVt22MM96EexgbKWTiUD3giJ6BQdjrx1iijoaWkCEqWqJLR2Sl"
-                        data-show-text="true" data-width="auto"></div>
-                </div>
-                <div class="masonry-item">
-                    <blockquote class="twitter-tweet" data-theme="light"><a
-                            href="https://twitter.com/animecorner_ac/status/1696107859506078036"></a></blockquote>
-                </div>
-                <div class="masonry-item">
-                    <div class="fb-post"
-                        data-href="https://www.facebook.com/AnimeCorner.Official/posts/pfbid034EAKr8oAQfm4wK1dG8NtLUqH6u8Zbx4ZYHi2vDhp5y6muGjJCtrhUX73V31kLjFAl"
-                        data-show-text="true" data-width="auto"></div>
-                </div>
-                <div class="masonry-item">
-                    <div class="fb-post"
-                        data-href="https://www.facebook.com/AnimeCorner.Official/posts/pfbid0vBQ5D9xZzJEUbNS5s9FvxLS531nqcz7y9Z2uVGmT6zNuYGfezvdzCczH3cBWzxjbl"
-                        data-show-text="true" data-width="auto"></div>
-                </div>
-                <div class="masonry-item">
-                    <div class="fb-post"
-                        data-href="https://www.facebook.com/AnimeCorner.Official/posts/pfbid031RSPUAEy8x8uAqSSA5uSkdAjGAuJeYaBrDhQSweZ6oCysaxfjKnFxqbVEN4JxeDcl"
-                        data-show-text="true" data-width="auto"></div>
-                </div>
-                <div class="masonry-item">
-                    <div class="fb-post"
-                        data-href="https://www.facebook.com/AnimeCorner.Official/posts/pfbid0zCLsJDAkMtkH5ExrHonY2jv4uSbXUEgThiTU3c758358XERuVj1UGSPwVEs696Mgl"
-                        data-show-text="true" data-width="auto"></div>
-                </div>
-                <div class="masonry-item">
-                    <div class="fb-post"
-                        data-href="https://www.facebook.com/AnimeCorner.Official/posts/pfbid0uQ5Mup6zsrt88hDA1f1TFSX7G3pezio8zktbNXAZbirJ2JCDrZfBqkHjj9AhvhoYl"
-                        data-show-text="true" data-width="auto"></div>
-                </div>
-                <div class="masonry-item">
-                    <div class="fb-post"
-                        data-href="https://www.facebook.com/AnimeCorner.Official/posts/pfbid0bBU8iEgajt2G4SCo8XSBULCMfrfxufAYzEvvnS4cFpPqKyW3X9n3ZZmEgkESgbm2l"
-                        data-show-text="true" data-width="auto"></div>
-                </div>
-                <div class="masonry-item">
-                    <blockquote class="twitter-tweet" data-theme="light"><a
-                            href="https://twitter.com/animecorner_ac/status/1930735562589110299"></a></blockquote>
-                </div>
-                <div class="masonry-item">
-                    <div class="fb-post"
-                        data-href="https://www.facebook.com/AnimeCorner.Official/posts/pfbid02R93rkBnLK57S7AVTsiP3XghT787recuxH5mC1n2Tiw2divoLsMJKjm7RUYyGQg4Dl"
-                        data-show-text="true" data-width="auto"></div>
-                </div>
-                <div class="masonry-item">
-                    <div class="fb-post"
-                        data-href="https://www.facebook.com/AnimeCorner.Official/posts/pfbid03mJEcivvtmuCPcrLEV4Bdud1kGtAu3iCZ28Q4ck3ctRAYXQZuSyAZWvaDTitc4ocl"
-                        data-show-text="true" data-width="auto"></div>
-                </div>
-                <div class="masonry-item">
-                    <div class="fb-post"
-                        data-href="https://www.facebook.com/AnimeCorner.Official/posts/pfbid02C5tsTPHYQhuKYrNESd6pj6n93XJVLs8HesP1P14JezGEhS9y7SZLzWjGXH1AxD47l"
-                        data-show-text="true" data-width="auto"></div>
-                </div>
-            </div>
-        </div>
+</div>
+<div class="masonry-item">
 
-        <!-- 5. Banzai PR -->
-        <div>
-            <h2 class="section-title">Banzai Communication Strategy</h2>
-            <div class="masonry-grid" style="column-count: 2;">
+<a class="mock-social-card" href="https://www.facebook.com/AnimeCorner.Official/posts/pfbid02Xe3UBo8M3hTrSS3uTstfSWsfMtqXUJ12w77fBazZnehF358hN2VFXFZc8UwXi6scl" target="_blank">
+<div class="mock-social-header">
+<img alt="Anime Corner Avatar" class="mock-social-avatar" src="{% static 'portfolio/images/social/ac_logo.jpg' %}"/>
+<div class="mock-social-meta">
+<span class="mock-social-name">Anime Corner</span>
+<span class="mock-social-date">View on Facebook</span>
+</div>
+</div>
+<div class="mock-social-body">What goes around comes around… 😅
 
-                <div class="masonry-item placeholder-card" style="justify-content: flex-start;">
-                    <h3 style="color: var(--text-heading); font-family: 'Outfit';">Banzai 2017</h3>
-                    <div style="height: 15px;"></div>
-                    <div class="fb-post"
-                        data-href="https://www.facebook.com/jetunisia/posts/pfbid05VLJPtzHbqwyuVsdndBCHwHfmGAcsTL5EM7AETC8v9s9XppFrKjPfMMr1esFfGqbl"
-                        data-show-text="true" data-width="auto" style="margin-bottom: 20px;"></div>
-                    <div class="fb-post"
-                        data-href="https://www.facebook.com/jetunisia/posts/pfbid02NL7BJ6oHfiBQQo9myvtoc8pNswNc87HNrZ9798GnRdGsRhQUfxMu89r9cjwuytSFl"
-                        data-show-text="true" data-width="auto" style="margin-bottom: 20px;"></div>
-                    <div class="fb-post"
-                        data-href="https://www.facebook.com/jetunisia/posts/pfbid0Q2qLpXyiLvzQbtdjxRQWg9cMP3DetdHnADjhuTdhRzqS46EWVH9CQGZY57hd2zUsl"
-                        data-show-text="true" data-width="auto" style="margin-bottom: 20px;"></div>
-                    <div class="fb-post"
-                        data-href="https://www.facebook.com/jetunisia/posts/pfbid02jqHavZsXeVRsrRZ7NFfwGReSek3r4jub3BGXr4VqoPNDpqDmihwhg7VtykvsiuGql"
-                        data-show-text="true" data-width="auto" style="margin-bottom: 20px;"></div>
-                    <div class="fb-post"
-                        data-href="https://www.facebook.com/jetunisia/posts/pfbid02stva6PeUvhmbrXVx6AUkguHGnsmbVH9DPVJMjoDSmzHgRjSDxs4Kn5URxcbncQ4Bl"
-                        data-show-text="true" data-width="auto" style="margin-bottom: 20px;"></div>
-                    <div class="fb-post"
-                        data-href="https://www.facebook.com/jetunisia/posts/pfbid0VfotwKewtCwcKmURptzrxHmo11H3HyEyUbyyVe4baeB2LHPGCfGWkPZhHfqo8sc9l"
-                        data-show-text="true" data-width="auto" style="margin-bottom: 20px;"></div>
-                    <div class="fb-post"
-                        data-href="https://www.facebook.com/jetunisia/posts/pfbid02oPNCH14FUoXz2srZUnFtE9uXpcdQsP8FEXdBBJX19nTiAn5uJ8ayd4iH4X1MP9PCl"
-                        data-show-text="true" data-width="auto" style="margin-bottom: 20px;"></div>
-                    <div class="fb-post"
-                        data-href="https://www.facebook.com/jetunisia/posts/pfbid0JyAjto8qoNoTUxBGGhQpANpv7BVbbWfdZ4Uf7qUNjg9SPJfpECUoCYzzmyXbVNKil"
-                        data-show-text="true" data-width="auto" style="margin-bottom: 20px;"></div>
-                </div>
+Vote for the best anime in week 10: acani.me/spring24-v10
 
-                <div class="masonry-item placeholder-card" style="justify-content: flex-start;">
-                    <h3 style="color: var(--text-heading); font-family: 'Outfit';">Banzai 2018</h3>
-                    <div style="height: 15px;"></div>
-                    <p style="color: #5A6978;">Strategic communication and interaction within the event discussion.</p>
-                    <a href="https://www.facebook.com/events/1931260953575535/1931260960242201/?active_tab=discussion"
-                        target="_blank" class="btn-action">View Discussion Details</a>
-                </div>
+Anime: Mushoku Tensei S2</div><img alt="Post image" class="mock-social-image" src="{% static 'portfolio/images/social/facebook_85a2a750.jpg' %}"/>
+<div class="mock-social-footer">Open Facebook Post →</div>
+</a>
 
-            </div>
-        </div>
+</div>
+<div class="masonry-item">
 
-    </div>
+<a class="mock-social-card" href="https://www.facebook.com/AnimeCorner.Official/posts/pfbid02U2ZkuNe4qmz6Y8zS7uUXBhEck3563TewRZFqtqhCGkMjEjK1bFRWv7YsSFsR9Lyql" target="_blank">
+<div class="mock-social-header">
+<img alt="Anime Corner Avatar" class="mock-social-avatar" src="{% static 'portfolio/images/social/ac_logo.jpg' %}"/>
+<div class="mock-social-meta">
+<span class="mock-social-name">Anime Corner</span>
+<span class="mock-social-date">View on Facebook</span>
+</div>
+</div>
+<div class="mock-social-body">Happy Valentine’s Day! 💖🥰</div><img alt="Post image" class="mock-social-image" src="{% static 'portfolio/images/social/facebook_a670c485.jpg' %}"/>
+<div class="mock-social-footer">Open Facebook Post →</div>
+</a>
 
+</div>
+<div class="masonry-item">
+
+<a class="mock-social-card" href="https://www.facebook.com/AnimeCorner.Official/posts/pfbid0BDmYDam9ijpmGxXP2WP2QVm4ARfZqPGw4qVjBqyq5fiwBaRcrHoG1io7Do3pi95tl" target="_blank">
+<div class="mock-social-header">
+<img alt="Anime Corner Avatar" class="mock-social-avatar" src="{% static 'portfolio/images/social/ac_logo.jpg' %}"/>
+<div class="mock-social-meta">
+<span class="mock-social-name">Anime Corner</span>
+<span class="mock-social-date">View on Facebook</span>
+</div>
+</div>
+<div class="mock-social-body">Happy Valentine's Day! 💕
+
+Several of these are nominated for the 2024 AOTY! Vote acani.me/aoty-2024
+ 
+Here are some anime-inspired valentine cards for you to send your special someone 👀✨</div><img alt="Post image" class="mock-social-image" src="{% static 'portfolio/images/social/facebook_4a6150e0.jpg' %}"/>
+<div class="mock-social-footer">Open Facebook Post →</div>
+</a>
+
+</div>
+<div class="masonry-item">
+
+<a class="mock-social-card" href="https://www.facebook.com/AnimeCorner.Official/posts/pfbid023VTie7bSrCZ3yT2bM5v7RRMH6zFJjcggwQvZXydcKk38rBzumFLzmN78GQDtaF3Ql" target="_blank">
+<div class="mock-social-header">
+<img alt="Anime Corner Avatar" class="mock-social-avatar" src="{% static 'portfolio/images/social/ac_logo.jpg' %}"/>
+<div class="mock-social-meta">
+<span class="mock-social-name">Anime Corner</span>
+<span class="mock-social-date">View on Facebook</span>
+</div>
+</div>
+<div class="mock-social-body">Happy Valentine's Day! (Part 2) 💘
+
+Part 1: https://www.facebook.com/share/p/19qwsdrrF2/
+
+Some more anime-inspired valentine cards! ✨</div><img alt="Post image" class="mock-social-image" src="{% static 'portfolio/images/social/facebook_b38bd183.jpg' %}"/>
+<div class="mock-social-footer">Open Facebook Post →</div>
+</a>
+
+</div>
+<div class="masonry-item">
+
+<a class="mock-social-card" href="https://www.facebook.com/AnimeCorner.Official/posts/pfbid02DCL7cfVsfW65ZaNvUoxbirEyWn1cxXXE6xXHUb2UvPupzfL2xRMfiqjmd9DewiWtl" target="_blank">
+<div class="mock-social-header">
+<img alt="Anime Corner Avatar" class="mock-social-avatar" src="{% static 'portfolio/images/social/ac_logo.jpg' %}"/>
+<div class="mock-social-meta">
+<span class="mock-social-name">Anime Corner</span>
+<span class="mock-social-date">View on Facebook</span>
+</div>
+</div>
+<div class="mock-social-body">It’s a two for one deal! 🤣
+
+Anime: The 100 Girlfriends Who Really, Really, Really, Really, REALLY Love You</div><img alt="Post image" class="mock-social-image" src="{% static 'portfolio/images/social/facebook_4fc5e044.jpg' %}"/>
+<div class="mock-social-footer">Open Facebook Post →</div>
+</a>
+
+</div>
+<div class="masonry-item">
+
+<a class="mock-social-card" href="https://www.facebook.com/AnimeCorner.Official/posts/pfbid02BP3wA4J2sno56B2Txyds3DmwqUSaevKjZUBfWNospYoKRbBPr5qRqXvTsc9AxzJQl" target="_blank">
+<div class="mock-social-header">
+<img alt="Anime Corner Avatar" class="mock-social-avatar" src="{% static 'portfolio/images/social/ac_logo.jpg' %}"/>
+<div class="mock-social-meta">
+<span class="mock-social-name">Anime Corner</span>
+<span class="mock-social-date">View on Facebook</span>
+</div>
+</div>
+<div class="mock-social-body">Chisato holding a death flag since episode 1...
+
+Vote for Lycoris Recoil: acani.me/summer22-v08</div><img alt="Post image" class="mock-social-image" src="{% static 'portfolio/images/social/facebook_21e0666a.jpg' %}"/>
+<div class="mock-social-footer">Open Facebook Post →</div>
+</a>
+
+</div>
+<div class="masonry-item">
+
+<a class="mock-social-card" href="https://www.facebook.com/AnimeCorner.Official/posts/pfbid02wwqUp311NJtDuGwUnF9EkixGYf1RhuyHV66jQYYn9gkqkkodR9Kot16yetVct8fzl" target="_blank">
+<div class="mock-social-header">
+<img alt="Anime Corner Avatar" class="mock-social-avatar" src="{% static 'portfolio/images/social/ac_logo.jpg' %}"/>
+<div class="mock-social-meta">
+<span class="mock-social-name">Anime Corner</span>
+<span class="mock-social-date">View on Facebook</span>
+</div>
+</div>
+<div class="mock-social-body">Chisato sure adores Takina 🥰
+
+Vote for Lycoris Recoil: acani.me/summer22-aots</div><img alt="Post image" class="mock-social-image" src="{% static 'portfolio/images/social/facebook_119a456c.jpg' %}"/>
+<div class="mock-social-footer">Open Facebook Post →</div>
+</a>
+
+</div>
+<div class="masonry-item">
+
+<a class="mock-social-card" href="https://www.facebook.com/AnimeCorner.Official/posts/pfbid0iWd7yDsCt6P6vZyeuZ1UuwVLGNuim2T6Rt68JzgeHGHzSd8pfuRYi648J8Rdyse6l" target="_blank">
+<div class="mock-social-header">
+<img alt="Anime Corner Avatar" class="mock-social-avatar" src="{% static 'portfolio/images/social/ac_logo.jpg' %}"/>
+<div class="mock-social-meta">
+<span class="mock-social-name">Anime Corner</span>
+<span class="mock-social-date">View on Facebook</span>
+</div>
+</div>
+<div class="mock-social-body">Namedrop moment
+
+[Bocchi the Rock!]</div><img alt="Post image" class="mock-social-image" src="{% static 'portfolio/images/social/facebook_0078b906.jpg' %}"/>
+<div class="mock-social-footer">Open Facebook Post →</div>
+</a>
+
+</div>
+<div class="masonry-item">
+
+<a class="mock-social-card" href="https://www.facebook.com/AnimeCorner.Official/posts/pfbid033QyxUakXMUUKdpUnJAHJcGvJ88jMstTMZxLnPsf26yTMUr5Xtj81NFyv3NEY3sb6l" target="_blank">
+<div class="mock-social-header">
+<img alt="Anime Corner Avatar" class="mock-social-avatar" src="{% static 'portfolio/images/social/ac_logo.jpg' %}"/>
+<div class="mock-social-meta">
+<span class="mock-social-name">Anime Corner</span>
+<span class="mock-social-date">View on Facebook</span>
+</div>
+</div>
+<div class="mock-social-body">She put that grimoire right to use. 🤣
+
+[Frieren: Beyond Journey’s End]</div><img alt="Post image" class="mock-social-image" src="{% static 'portfolio/images/social/facebook_63913cfd.jpg' %}"/>
+<div class="mock-social-footer">Open Facebook Post →</div>
+</a>
+
+</div>
+<div class="masonry-item">
+
+<a class="mock-social-card" href="https://www.facebook.com/AnimeCorner.Official/posts/pfbid0o7yD5MTVXt8kxGNwphtMw5ayomiGzTnRKBhuk5tpbJFL6Qbk6R3nrqmTBaewmWukl" target="_blank">
+<div class="mock-social-header">
+<img alt="Anime Corner Avatar" class="mock-social-avatar" src="{% static 'portfolio/images/social/ac_logo.jpg' %}"/>
+<div class="mock-social-meta">
+<span class="mock-social-name">Anime Corner</span>
+<span class="mock-social-date">View on Facebook</span>
+</div>
+</div>
+<div class="mock-social-body">Truly a cause for celebration! 🥳😆
+
+[Frieren: Beyond Journey's End]
+
+Vote for Frieren in week 4: acani.me/fall23-v04</div><img alt="Post image" class="mock-social-image" src="{% static 'portfolio/images/social/facebook_2963f198.jpg' %}"/>
+<div class="mock-social-footer">Open Facebook Post →</div>
+</a>
+
+</div>
+<div class="masonry-item">
+
+<a class="mock-social-card" href="https://www.facebook.com/AnimeCorner.Official/posts/pfbid02DPaY3YEfHbaxPEMHVt22MM96EexgbKWTiUD3giJ6BQdjrx1iijoaWkCEqWqJLR2Sl" target="_blank">
+<div class="mock-social-header">
+<img alt="Anime Corner Avatar" class="mock-social-avatar" src="{% static 'portfolio/images/social/ac_logo.jpg' %}"/>
+<div class="mock-social-meta">
+<span class="mock-social-name">Anime Corner</span>
+<span class="mock-social-date">View on Facebook</span>
+</div>
+</div>
+<div class="mock-social-body">Maomao's power level is too high 😳
+
+You can now vote for The Apothecary Diaries in our weekly poll! Vote: http://acani.me/fall23-v04</div><img alt="Post image" class="mock-social-image" src="{% static 'portfolio/images/social/facebook_9843fb45.jpg' %}"/>
+<div class="mock-social-footer">Open Facebook Post →</div>
+</a>
+
+</div>
+<div class="masonry-item">
+
+<a class="mock-social-card" href="https://twitter.com/animecorner_ac/status/1696107859506078036" target="_blank">
+<div class="mock-social-header">
+<img alt="Anime Corner Avatar" class="mock-social-avatar" src="{% static 'portfolio/images/social/ac_logo.jpg' %}"/>
+<div class="mock-social-meta">
+<span class="mock-social-name">Anime Corner</span>
+<span class="mock-social-date">View on Twitter</span>
+</div>
+</div>
+<div class="mock-social-body">Love at first sight 🥰Vote for the best anime this week: https://t.co/QeVrrfdhEC[Mushoku Tensei Season 2] pic.twitter.com/bDeyxcMsnt</div>
+<div class="mock-social-footer">Open Twitter Post →</div>
+</a>
+
+</div>
+<div class="masonry-item">
+
+<a class="mock-social-card" href="https://www.facebook.com/AnimeCorner.Official/posts/pfbid034EAKr8oAQfm4wK1dG8NtLUqH6u8Zbx4ZYHi2vDhp5y6muGjJCtrhUX73V31kLjFAl" target="_blank">
+<div class="mock-social-header">
+<img alt="Anime Corner Avatar" class="mock-social-avatar" src="{% static 'portfolio/images/social/ac_logo.jpg' %}"/>
+<div class="mock-social-meta">
+<span class="mock-social-name">Anime Corner</span>
+<span class="mock-social-date">View on Facebook</span>
+</div>
+</div>
+<div class="mock-social-body">Thorfinn has finally realized his dream! ☺️
+
+[Vinland Saga S2]</div><img alt="Post image" class="mock-social-image" src="{% static 'portfolio/images/social/facebook_bc63aa7c.jpg' %}"/>
+<div class="mock-social-footer">Open Facebook Post →</div>
+</a>
+
+</div>
+<div class="masonry-item">
+
+<a class="mock-social-card" href="https://www.facebook.com/AnimeCorner.Official/posts/pfbid0vBQ5D9xZzJEUbNS5s9FvxLS531nqcz7y9Z2uVGmT6zNuYGfezvdzCczH3cBWzxjbl" target="_blank">
+<div class="mock-social-header">
+<img alt="Anime Corner Avatar" class="mock-social-avatar" src="{% static 'portfolio/images/social/ac_logo.jpg' %}"/>
+<div class="mock-social-meta">
+<span class="mock-social-name">Anime Corner</span>
+<span class="mock-social-date">View on Facebook</span>
+</div>
+</div>
+<div class="mock-social-body">Don’t forget the dailies! 🤣
+
+[Konosuba: An Explosion on This Wonderful World!]</div><img alt="Post image" class="mock-social-image" src="{% static 'portfolio/images/social/facebook_bce14f95.jpg' %}"/>
+<div class="mock-social-footer">Open Facebook Post →</div>
+</a>
+
+</div>
+<div class="masonry-item">
+
+<a class="mock-social-card" href="https://www.facebook.com/AnimeCorner.Official/posts/pfbid031RSPUAEy8x8uAqSSA5uSkdAjGAuJeYaBrDhQSweZ6oCysaxfjKnFxqbVEN4JxeDcl" target="_blank">
+<div class="mock-social-header">
+<img alt="Anime Corner Avatar" class="mock-social-avatar" src="{% static 'portfolio/images/social/ac_logo.jpg' %}"/>
+<div class="mock-social-meta">
+<span class="mock-social-name">Anime Corner</span>
+<span class="mock-social-date">View on Facebook</span>
+</div>
+</div>
+<div class="mock-social-body">KAMIKATSU entered the top 10 for the first time! 🚜</div><img alt="Post image" class="mock-social-image" src="{% static 'portfolio/images/social/facebook_34d876c8.jpg' %}"/>
+<div class="mock-social-footer">Open Facebook Post →</div>
+</a>
+
+</div>
+<div class="masonry-item">
+
+<a class="mock-social-card" href="https://www.facebook.com/AnimeCorner.Official/posts/pfbid0zCLsJDAkMtkH5ExrHonY2jv4uSbXUEgThiTU3c758358XERuVj1UGSPwVEs696Mgl" target="_blank">
+<div class="mock-social-header">
+<img alt="Anime Corner Avatar" class="mock-social-avatar" src="{% static 'portfolio/images/social/ac_logo.jpg' %}"/>
+<div class="mock-social-meta">
+<span class="mock-social-name">Anime Corner</span>
+<span class="mock-social-date">View on Facebook</span>
+</div>
+</div>
+<div class="mock-social-body">Launch is imminent! 🤣
+
+Vote Tomo-Chan as anime of the Season: acani.me/winter23-aots</div><img alt="Post image" class="mock-social-image" src="{% static 'portfolio/images/social/facebook_7c3e80bf.jpg' %}"/>
+<div class="mock-social-footer">Open Facebook Post →</div>
+</a>
+
+</div>
+<div class="masonry-item">
+
+<a class="mock-social-card" href="https://www.facebook.com/AnimeCorner.Official/posts/pfbid0uQ5Mup6zsrt88hDA1f1TFSX7G3pezio8zktbNXAZbirJ2JCDrZfBqkHjj9AhvhoYl" target="_blank">
+<div class="mock-social-header">
+<img alt="Anime Corner Avatar" class="mock-social-avatar" src="{% static 'portfolio/images/social/ac_logo.jpg' %}"/>
+<div class="mock-social-meta">
+<span class="mock-social-name">Anime Corner</span>
+<span class="mock-social-date">View on Facebook</span>
+</div>
+</div>
+<div class="mock-social-body">It hits different coming from All For One! 😰
+
+Vote My Hero Academia S6 for best Anime of the week: acani.me/winter23-v10</div><img alt="Post image" class="mock-social-image" src="{% static 'portfolio/images/social/facebook_a2a3f1fd.jpg' %}"/>
+<div class="mock-social-footer">Open Facebook Post →</div>
+</a>
+
+</div>
+<div class="masonry-item">
+
+<a class="mock-social-card" href="https://www.facebook.com/AnimeCorner.Official/posts/pfbid0bBU8iEgajt2G4SCo8XSBULCMfrfxufAYzEvvnS4cFpPqKyW3X9n3ZZmEgkESgbm2l" target="_blank">
+<div class="mock-social-header">
+<img alt="Anime Corner Avatar" class="mock-social-avatar" src="{% static 'portfolio/images/social/ac_logo.jpg' %}"/>
+<div class="mock-social-meta">
+<span class="mock-social-name">Anime Corner</span>
+<span class="mock-social-date">View on Facebook</span>
+</div>
+</div>
+<div class="mock-social-body">One of the hottest name drops this year! 🔥😤
+
+Anime: Frieren: Beyond Journey's End</div><img alt="Post image" class="mock-social-image" src="{% static 'portfolio/images/social/facebook_54fa07e5.jpg' %}"/>
+<div class="mock-social-footer">Open Facebook Post →</div>
+</a>
+
+</div>
+<div class="masonry-item">
+
+<a class="mock-social-card" href="https://twitter.com/animecorner_ac/status/1930735562589110299" target="_blank">
+<div class="mock-social-header">
+<img alt="Anime Corner Avatar" class="mock-social-avatar" src="{% static 'portfolio/images/social/ac_logo.jpg' %}"/>
+<div class="mock-social-meta">
+<span class="mock-social-name">Anime Corner</span>
+<span class="mock-social-date">View on Twitter</span>
+</div>
+</div>
+<div class="mock-social-body">Shiro, a cool and aloof rock lady ✨ Anime: Rock is a Lady's Modesty pic.twitter.com/4EopapiwuA</div>
+<div class="mock-social-footer">Open Twitter Post →</div>
+</a>
+
+</div>
+<div class="masonry-item">
+
+<a class="mock-social-card" href="https://www.facebook.com/AnimeCorner.Official/posts/pfbid02R93rkBnLK57S7AVTsiP3XghT787recuxH5mC1n2Tiw2divoLsMJKjm7RUYyGQg4Dl" target="_blank">
+<div class="mock-social-header">
+<img alt="Anime Corner Avatar" class="mock-social-avatar" src="{% static 'portfolio/images/social/ac_logo.jpg' %}"/>
+<div class="mock-social-meta">
+<span class="mock-social-name">Anime Corner</span>
+<span class="mock-social-date">View on Facebook</span>
+</div>
+</div>
+<div class="mock-social-body">Time to find out 😳
+
+Anime: May I Ask for One Final Thing?</div><img alt="Post image" class="mock-social-image" src="{% static 'portfolio/images/social/facebook_c1312a97.jpg' %}"/>
+<div class="mock-social-footer">Open Facebook Post →</div>
+</a>
+
+</div>
+<div class="masonry-item">
+
+<a class="mock-social-card" href="https://www.facebook.com/AnimeCorner.Official/posts/pfbid03mJEcivvtmuCPcrLEV4Bdud1kGtAu3iCZ28Q4ck3ctRAYXQZuSyAZWvaDTitc4ocl" target="_blank">
+<div class="mock-social-header">
+<img alt="Anime Corner Avatar" class="mock-social-avatar" src="{% static 'portfolio/images/social/ac_logo.jpg' %}"/>
+<div class="mock-social-meta">
+<span class="mock-social-name">Anime Corner</span>
+<span class="mock-social-date">View on Facebook</span>
+</div>
+</div>
+<div class="mock-social-body">Who is this beautiful girl, whose golden hair flutters in the wind, shining so much with beauty? That’s right, it’s Mona-chan! ✨
+
+Anime: Medaka Kuroiwa Is Impervious to My Charms, Wandering Witch:...</div><img alt="Post image" class="mock-social-image" src="{% static 'portfolio/images/social/facebook_cb7ccf77.jpg' %}"/>
+<div class="mock-social-footer">Open Facebook Post →</div>
+</a>
+
+</div>
+<div class="masonry-item">
+
+<a class="mock-social-card" href="https://www.facebook.com/AnimeCorner.Official/posts/pfbid02C5tsTPHYQhuKYrNESd6pj6n93XJVLs8HesP1P14JezGEhS9y7SZLzWjGXH1AxD47l" target="_blank">
+<div class="mock-social-header">
+<img alt="Anime Corner Avatar" class="mock-social-avatar" src="{% static 'portfolio/images/social/ac_logo.jpg' %}"/>
+<div class="mock-social-meta">
+<span class="mock-social-name">Anime Corner</span>
+<span class="mock-social-date">View on Facebook</span>
+</div>
+</div>
+<div class="mock-social-body">Happy Valentine's Day! (Part 2) 💘
+
+Some more anime-inspired valentine cards! ✨</div><img alt="Post image" class="mock-social-image" src="{% static 'portfolio/images/social/facebook_d6f53af6.jpg' %}"/>
+<div class="mock-social-footer">Open Facebook Post →</div>
+</a>
+
+</div>
+</div>
+</div>
+<!-- 5. Banzai PR -->
+<div>
+<h2 class="section-title">Banzai Communication Strategy</h2>
+<div class="masonry-grid" style="column-count: 2;">
+<div class="masonry-item placeholder-card" style="justify-content: flex-start;">
+<h3 style="color: var(--text-heading); font-family: 'Outfit';">Banzai 2017</h3>
+<div style="height: 15px;"></div>
+
+<a class="mock-social-card" href="https://www.facebook.com/jetunisia/posts/pfbid05VLJPtzHbqwyuVsdndBCHwHfmGAcsTL5EM7AETC8v9s9XppFrKjPfMMr1esFfGqbl" target="_blank">
+<div class="mock-social-header">
+<img alt="JET - Japanese Events in Tunisia Avatar" class="mock-social-avatar" src="{% static 'portfolio/images/social/jet_logo.jpg' %}"/>
+<div class="mock-social-meta">
+<span class="mock-social-name">JET - Japanese Events in Tunisia</span>
+<span class="mock-social-date">View on Facebook</span>
+</div>
+</div>
+<div class="mock-social-body">[Scéne 1]
+
+Leobane Cosplay, Aokiji Cosplay ouvrent les hostilités et partagent avec nous leurs expériences dans les cosplays suivi des kawaii Angel Sfax avec leur magnifique performance de dance.</div><img alt="Post image" class="mock-social-image" src="{% static 'portfolio/images/social/facebook_1238d52d.jpg' %}"/>
+<div class="mock-social-footer">Open Facebook Post →</div>
+</a>
+
+
+<a class="mock-social-card" href="https://www.facebook.com/jetunisia/posts/pfbid02NL7BJ6oHfiBQQo9myvtoc8pNswNc87HNrZ9798GnRdGsRhQUfxMu89r9cjwuytSFl" target="_blank">
+<div class="mock-social-header">
+<img alt="JET - Japanese Events in Tunisia Avatar" class="mock-social-avatar" src="{% static 'portfolio/images/social/jet_logo.jpg' %}"/>
+<div class="mock-social-meta">
+<span class="mock-social-name">JET - Japanese Events in Tunisia</span>
+<span class="mock-social-date">View on Facebook</span>
+</div>
+</div>
+<div class="mock-social-body">Nous y voilà enfin ! Ne craignez rien vous ne raterez pas une miette de Banzai 2017, nous vous communiquerons ce qui se passe en temps réel alors restez branchés.
+En attendant, admirez les trésors...</div><img alt="Post image" class="mock-social-image" src="{% static 'portfolio/images/social/facebook_c089162a.jpg' %}"/>
+<div class="mock-social-footer">Open Facebook Post →</div>
+</a>
+
+
+<a class="mock-social-card" href="https://www.facebook.com/jetunisia/posts/pfbid0Q2qLpXyiLvzQbtdjxRQWg9cMP3DetdHnADjhuTdhRzqS46EWVH9CQGZY57hd2zUsl" target="_blank">
+<div class="mock-social-header">
+<img alt="JET - Japanese Events in Tunisia Avatar" class="mock-social-avatar" src="{% static 'portfolio/images/social/jet_logo.jpg' %}"/>
+<div class="mock-social-meta">
+<span class="mock-social-name">JET - Japanese Events in Tunisia</span>
+<span class="mock-social-date">View on Facebook</span>
+</div>
+</div>
+<div class="mock-social-body">[Scéne 2]
+
+Our guest Aokiji Cosplay shared with us tricks about how to makeup for your cosplays using simple methods, receipes and even recomanded us few products.</div><img alt="Post image" class="mock-social-image" src="{% static 'portfolio/images/social/facebook_0cf15255.jpg' %}"/>
+<div class="mock-social-footer">Open Facebook Post →</div>
+</a>
+
+
+<a class="mock-social-card" href="https://www.facebook.com/jetunisia/posts/pfbid02jqHavZsXeVRsrRZ7NFfwGReSek3r4jub3BGXr4VqoPNDpqDmihwhg7VtykvsiuGql" target="_blank">
+<div class="mock-social-header">
+<img alt="JET - Japanese Events in Tunisia Avatar" class="mock-social-avatar" src="{% static 'portfolio/images/social/jet_logo.jpg' %}"/>
+<div class="mock-social-meta">
+<span class="mock-social-name">JET - Japanese Events in Tunisia</span>
+<span class="mock-social-date">View on Facebook</span>
+</div>
+</div>
+<div class="mock-social-body">[Scène 2]
+Notre invitée Arai sensei a présenté son workshop Ikebana où elle a initié les participants aux bases de la composition florale, une expérience très relaxante.
+-----------
+
+Our guest Arai...</div><img alt="Post image" class="mock-social-image" src="{% static 'portfolio/images/social/facebook_13f7cd59.jpg' %}"/>
+<div class="mock-social-footer">Open Facebook Post →</div>
+</a>
+
+
+<a class="mock-social-card" href="https://www.facebook.com/jetunisia/posts/pfbid02stva6PeUvhmbrXVx6AUkguHGnsmbVH9DPVJMjoDSmzHgRjSDxs4Kn5URxcbncQ4Bl" target="_blank">
+<div class="mock-social-header">
+<img alt="JET - Japanese Events in Tunisia Avatar" class="mock-social-avatar" src="{% static 'portfolio/images/social/jet_logo.jpg' %}"/>
+<div class="mock-social-meta">
+<span class="mock-social-name">JET - Japanese Events in Tunisia</span>
+<span class="mock-social-date">View on Facebook</span>
+</div>
+</div>
+<div class="mock-social-body">[Scène 1]
+
+Et c'est التوانسة إلي يحبوا الأنمي qui inaugurent le 2éme jour avec leurs intervention sur la  production et création des animes suivis de notre ravissante invité LittleJem en Katarina...</div><img alt="Post image" class="mock-social-image" src="{% static 'portfolio/images/social/facebook_f57291b8.jpg' %}"/>
+<div class="mock-social-footer">Open Facebook Post →</div>
+</a>
+
+
+<a class="mock-social-card" href="https://www.facebook.com/jetunisia/posts/pfbid0VfotwKewtCwcKmURptzrxHmo11H3HyEyUbyyVe4baeB2LHPGCfGWkPZhHfqo8sc9l" target="_blank">
+<div class="mock-social-header">
+<img alt="JET - Japanese Events in Tunisia Avatar" class="mock-social-avatar" src="{% static 'portfolio/images/social/jet_logo.jpg' %}"/>
+<div class="mock-social-meta">
+<span class="mock-social-name">JET - Japanese Events in Tunisia</span>
+<span class="mock-social-date">View on Facebook</span>
+</div>
+</div>
+<div class="mock-social-body">[Scène 2]
+
+Nous remercions notre invité Leobane Cosplay d'avoir partagé ses astuces sur la conception des cosplays en cuir utilisant des méthodes simples et même pas cher, avec Hercule et Dovahkiin...</div><img alt="Post image" class="mock-social-image" src="{% static 'portfolio/images/social/facebook_ad220130.jpg' %}"/>
+<div class="mock-social-footer">Open Facebook Post →</div>
+</a>
+
+
+<a class="mock-social-card" href="https://www.facebook.com/jetunisia/posts/pfbid02oPNCH14FUoXz2srZUnFtE9uXpcdQsP8FEXdBBJX19nTiAn5uJ8ayd4iH4X1MP9PCl" target="_blank">
+<div class="mock-social-header">
+<img alt="JET - Japanese Events in Tunisia Avatar" class="mock-social-avatar" src="{% static 'portfolio/images/social/jet_logo.jpg' %}"/>
+<div class="mock-social-meta">
+<span class="mock-social-name">JET - Japanese Events in Tunisia</span>
+<span class="mock-social-date">View on Facebook</span>
+</div>
+</div>
+<div class="mock-social-body">[Scéne 2]
+The Ikebana workshop starts at 10 AM, head to the reception to register.</div><img alt="Post image" class="mock-social-image" src="{% static 'portfolio/images/social/facebook_558b779e.jpg' %}"/>
+<div class="mock-social-footer">Open Facebook Post →</div>
+</a>
+
+
+<a class="mock-social-card" href="https://www.facebook.com/jetunisia/posts/pfbid0JyAjto8qoNoTUxBGGhQpANpv7BVbbWfdZ4Uf7qUNjg9SPJfpECUoCYzzmyXbVNKil" target="_blank">
+<div class="mock-social-header">
+<img alt="JET - Japanese Events in Tunisia Avatar" class="mock-social-avatar" src="{% static 'portfolio/images/social/jet_logo.jpg' %}"/>
+<div class="mock-social-meta">
+<span class="mock-social-name">JET - Japanese Events in Tunisia</span>
+<span class="mock-social-date">View on Facebook</span>
+</div>
+</div>
+<div class="mock-social-body">[Scène 2]
+
+Un workshop présenté par nos invités التوانسة إلي يحبوا الأنمي sur le doublage et les voix dans les animes en utilisant des scènes de Death Note comme référence.
+------------------
+
+A...</div><img alt="Post image" class="mock-social-image" src="{% static 'portfolio/images/social/facebook_331dbaff.jpg' %}"/>
+<div class="mock-social-footer">Open Facebook Post →</div>
+</a>
+
+</div>
+<div class="masonry-item placeholder-card" style="justify-content: flex-start;">
+<h3 style="color: var(--text-heading); font-family: 'Outfit';">Banzai 2018</h3>
+<div style="height: 15px;"></div>
+<p style="color: #5A6978;">Strategic communication and interaction within the event discussion.</p>
+<a class="btn-action" href="https://www.facebook.com/events/1931260953575535/1931260960242201/?active_tab=discussion" target="_blank">View Discussion Details</a>
+</div>
+</div>
+</div>
+</div>
 </body>
-
 </html>
